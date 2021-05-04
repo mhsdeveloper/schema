@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:mhs="http://www.masshist.org/ns/1.0" xml:lang="en">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title type="short">primarysourcecoop</title>
+        <title>Primary Source Cooperative at the Masschusetts Historical Society</title>
+        <author xml:id="sb">Syd Bauman</author>
+        <author xml:id="bb"><persName ref="p:wbeck.del">William Beck</persName></author>
+      </titleStmt>
+      <publicationStmt>
+        <publisher>MHS</publisher>
+        <availability>
+          <licence>Available under the terms of the <ref
+              target="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons
+              Attribution-ShareAlike 4.0 International license</ref>.</licence>
+        </availability>
+      </publicationStmt>
+      <notesStmt>
+        <note type="ns">http://www.masshist.org/ns/1.0</note>
+      </notesStmt>
+      <sourceDesc>
+        <p>Born digital.</p>
+      </sourceDesc>
+    </fileDesc>
+    <revisionDesc>
+      <change who="#bb" when="2020-12-15"> Added new tei header to accomodate moving metadata (author/recip etc) out of bibl. </change>
+      <change who="lj" when="2020-12-07">Added <gi>resp</gi> and <gi>respStmt</gi> to the
+        header.</change>
+      <change who="#bb" when="2018-11-27"> Added <gi>del</gi>. </change>
+      <change who="#sb" when="2018-10-02"> Add new <gi>persRef</gi>. </change>
+      <change who="#sb" when="2018-09-14"><list>
+          <item>Minor tweaks to metadata, etc</item>
+          <item>Deleted lots of pointless stuff</item>
+          <item>Added <val>month</val> to <att>type</att> of <gi>div</gi> (dunno why it wasn't
+            already there)</item>
+          <item>Added MHS placeholder namespace</item>
+          <item>Added <att>mhs:startingOnPage</att> and <att>mhs:volume</att> of <gi>div</gi></item>
+        </list></change>
+      <change who="#sb" when="2018-09-13">Created with <name type="pgm">oddbyexample</name> using
+        the current release version of P5 and the 5 example files in
+        codem/manage/samplexml/jqa/*.xml</change>
+      <change who="#bb" when="2018-12-03"> Added <gi>gap</gi>. Removed namespace from new
+          <gi>persRef</gi> element. </change>
+    </revisionDesc>
+  </teiHeader>
+  <text>
+    <body>
+      <head>Primary Source Cooperative at the Masschusetts Historical Society Encoding
+        Language</head>
+      <p>We use a highly constrained TEI customization with a few extensions.</p>
+      <specGrp xml:id="personReferenceElement"
+        ><!-- removing namespace for this element, because our encoders are having difficulty  ns="http://www.masshist.org/ns/1.0" --><!-- persref was here --></specGrp>
+    </body>
+    <back>
+      <schemaSpec ident="primarysourcecoop_rev1" start="TEI teiCorpus div">
+        <desc>Scehema intended to support at least jqa/ &amp; correspondence/</desc>
+        <moduleRef key="tei"/>
+        <!-- core module -->
+        <moduleRef key="core"
+          include="abbr add author bibl cb date del editor expan gap head hi item l label lb lg list name note orig p pb ptr ref reg resp respStmt title unclear sourceDesc textClass keywords list"/>
+        <elementSpec ident="date" mode="change">
+          <attList>
+            <attDef ident="type" mode="change">
+              <valList mode="add" type="closed">
+                <valItem ident="creation"/>
+                <valItem ident="transcription"/>
+              </valList>
+            </attDef>
+          </attList>
+        </elementSpec>
+        <elementSpec ident="list" mode="change">
+          <attList>
+            <attDef ident="type" mode="delete"/>
+            <attDef ident="type" mode="delete"/>
+          </attList>
+        </elementSpec>
+        <elementSpec ident="head" mode="change" ns="">
+          <attList>
+            <attDef ident="type" mode="delete"/>
+          </attList>
+        </elementSpec>
+        <elementSpec ident="pb" mode="change">
+          <attList>
+            <attDef ident="type" mode="change">
+              <valList mode="add" type="closed">
+                <valItem ident="ms"/>
+              </valList>
+            </attDef>
+          </attList>
+        </elementSpec>
+        <elementSpec ident="cb" mode="change">
+          <attList>
+            <attDef ident="type" mode="delete"/>
+          </attList>
+        </elementSpec>
+        <elementSpec ident="author" mode="change">
+          <attList>
+            <attDef ident="role" mode="delete"/>
+          </attList>
+        </elementSpec>
+        <elementSpec ident="bibl" mode="change">
+          <attList>
+            <attDef ident="type" mode="delete"/>
+          </attList>
+        </elementSpec>
+        <!-- header module -->
+        <moduleRef key="header"/>
+        <!--          include="appInfo application teiHeader fileDesc msDesc profileDesc titleStmt publicationStmt respStmt availability sourceDesc revisionDesc change editionStmt edition encodingDesc" -->
+        <!-- namesdates module -->
+        <specGrpRef target="#personReferenceElement"/>
+        <!-- verse module -->
+        <!-- transcr module -->
+        <moduleRef key="transcr" include="space supplied"/>
+        <!-- linking module -->
+        <!-- analysis module -->
+        <!-- textstructure module -->
+        <moduleRef key="textstructure"
+          include="TEI text front body back div salute signed dateline opener closer postscript"/>
+        <elementSpec ident="TEI" mode="change">
+          <attList>
+            <attDef ident="version" mode="delete"/>
+            <attDef ident="type" mode="change">
+              <valList mode="add" type="closed">
+                <valItem ident="month"/>
+              </valList>
+            </attDef>
+          </attList>
+        </elementSpec>
+        <elementSpec ident="div" mode="change">
+          <attList>
+            <attDef ident="type" mode="change">
+              <valList mode="add" type="closed">
+                <valItem ident="doc"/>
+                <valItem ident="docbody"/>
+                <valItem ident="docback"/>
+                <valItem ident="insertion"/>
+                <valItem ident="entry"/>
+                <valItem ident="month"/>
+              </valList>
+            </attDef>
+            <attDef ident="startingPage" mode="add" ns="http://www.masshist.org/ns/1.0">
+              <datatype>
+                <dataRef key="teidata.count"/>
+              </datatype>
+            </attDef>
+            <attDef ident="volume" mode="add" ns="http://www.masshist.org/ns/1.0">
+              <datatype>
+                <dataRef key="teidata.count"/>
+              </datatype>
+            </attDef>
+          </attList>
+        </elementSpec>
+        <elementSpec ident="date" mode="change">
+          <attList>
+            <attDef ident="from-custom" mode="add">
+              <datatype>
+                <dataRef key="teidata.temporal.w3c"/>
+              </datatype>
+            </attDef>
+            <attDef ident="to-custom" mode="add">
+              <datatype>
+                <dataRef key="teidata.temporal.w3c"/>
+              </datatype>
+            </attDef>
+          </attList>
+        </elementSpec>
+        <!-- figures module -->
+        <moduleRef key="figures" include="table row cell"/>
+        <elementSpec ident="table" mode="change">
+          <attList>
+            <attDef ident="rows" mode="delete"/>
+            <attDef ident="type" mode="delete"/>
+          </attList>
+        </elementSpec>
+        <elementSpec ident="row" mode="change">
+          <attList>
+            <attDef ident="rows" mode="delete"/>
+          </attList>
+        </elementSpec>
+        <!--  We will need cells to specify col span, so not deleting this      <elementSpec ident="cell" mode="change">
+          <attList>
+            <attDef ident="cols" mode="delete"/>
+          </attList>
+        </elementSpec>
+-->
+        <elementSpec ident="persRef" mode="add">
+          <equiv filter="./codem2tei.xslt"/>
+          <gloss>person reference</gloss>
+          <desc>contains a reference (typically a non-name reference) to a person or person
+            group</desc>
+          <classes>
+            <memberOf key="att.global"/>
+            <memberOf key="att.naming"/>
+            <memberOf key="model.nameLike"/>
+            <memberOf key="att.typed"/>
+          </classes>
+          <content>
+            <macroRef key="macro.phraseSeq"/>
+          </content>
+          <!-- Waiting for examples -->
+        </elementSpec>
+        <elementSpec ident="recipient" ns="http://www.tei-c.org/ns/1.0" mode="add">
+          <desc>Indicates a person or entity who is the primary audience of the document.</desc>
+          <classes>
+            <memberOf key="model.biblPart"/>
+            <memberOf key="att.global"/>
+            <memberOf key="att.naming"/>
+          </classes>
+          <content>
+            <rng:ref xmlns:rng="http://relaxng.org/ns/structure/1.0" name="macro.phraseSeq"/>
+          </content>
+        </elementSpec>
+        <elementSpec ident="subject" ns="http://www.tei-c.org/ns/1.0" mode="add">
+          <desc>Concise phrase that represents the historical topic of the document.</desc>
+          <classes>
+            <memberOf key="model.biblPart"/>
+            <memberOf key="att.global"/>
+          </classes>
+          <content>
+            <rng:ref xmlns:rng="http://relaxng.org/ns/structure/1.0" name="macro.phraseSeq"/>
+          </content>
+        </elementSpec>
+        <elementSpec ident="head" module="core" mode="replace">
+          <classes mode="replace">
+            <memberOf key="model.headLike"/>
+            <memberOf key="model.pLike"/>
+            <memberOf key="model.pLike.front"/>
+            <memberOf key="att.global"/>
+          </classes>
+        </elementSpec>
+        <elementSpec ident="sourceDesc" module="header" mode="change">
+          <classes mode="replace">
+            <memberOf key="att.declarable"/>
+            <memberOf key="att.global"/>
+          </classes>
+        </elementSpec>
+        <moduleRef key="msdescription"
+          except="accMat acquisition additional additions adminInfo altIdentifier binding bindingDesc catchwords collation colophon condition custEvent custodialHist decoDesc decoNote depth dim dimensions explicit filiation finalRubric foliation handDesc height heraldry history incipit layout layoutDesc locus locusGrp msFrag msItemStruct musicNotation objectDesc objectType origDate origPlace origin provenance recordHist rubric scriptDesc seal sealDesc secFol signatures source stamp summary support supportDesc surrogates typeDesc typeNote watermark width"
+        />
+      </schemaSpec>
+    </back>
+  </text>
+</TEI>
