@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-model href="https://tei-c.org/Vault/P5/current/xml/tei/custom/schema/relaxng/tei_customization.rnc" type="application/relax-ng-compact-syntax"?>
-<TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:mhs="http://www.masshist.org/ns/1.0" xml:lang="en">
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:mhs="http://www.masshist.org/ns/1.0" xml:lang="en" 
+  xmlns:sch="http://purl.oclc.org/dsdl/schematron">
   <teiHeader>
     <fileDesc>
       <titleStmt>
@@ -8,6 +9,7 @@
         <title>Primary Source Cooperative at the Masschusetts Historical Society</title>
         <author xml:id="sb">Syd Bauman</author>
         <author xml:id="bb"><persName ref="p:wbeck.del">William Beck</persName></author>
+        <author xml:id="lj">Laura Johnson</author>
       </titleStmt>
       <publicationStmt>
         <publisher>MHS</publisher>
@@ -25,8 +27,9 @@
       </sourceDesc>
     </fileDesc>
     <revisionDesc>
+      <change who="#lj" when="2021-05-04">Added a content model for <gi>respStmt</gi>.</change>
       <change who="#bb" when="2020-12-15"> Added new tei header to accomodate moving metadata (author/recip etc) out of bibl. </change>
-      <change who="lj" when="2020-12-07">Added <gi>resp</gi> and <gi>respStmt</gi> to the
+      <change who="#lj" when="2020-12-07">Added <gi>resp</gi> and <gi>respStmt</gi> to the
         header.</change>
       <change who="#bb" when="2018-11-27"> Added <gi>del</gi>. </change>
       <change who="#sb" when="2018-10-02"> Add new <gi>persRef</gi>. </change>
@@ -55,7 +58,7 @@
     </body>
     <back>
       <schemaSpec ident="primarysourcecoop_rev1" start="TEI teiCorpus div">
-        <desc>Scehema intended to support at least jqa/ &amp; correspondence/</desc>
+        <desc>Schema intended to support at least jqa/ &amp; correspondence/</desc>
         <moduleRef key="tei"/>
         <!-- core module -->
         <moduleRef key="core"
@@ -114,9 +117,33 @@
             </sequence>
           </content>
         </elementSpec>
-        <!-- header module -->
+        
         <moduleRef key="header"/>
-        <!--          include="appInfo application teiHeader fileDesc msDesc profileDesc titleStmt publicationStmt respStmt availability sourceDesc revisionDesc change editionStmt edition encodingDesc" -->
+        <elementSpec ident="teiHeader" mode="change">
+          <constraintSpec ident="require-encodingDesc" scheme="schematron">
+            <constraint>
+              <sch:assert test="tei:encodingDesc">An encoding description (element "encodingDesc") is required in the TEI Header.</sch:assert>
+            </constraint>
+          </constraintSpec>
+        </elementSpec>
+        
+        <elementSpec ident="fileDesc" mode="change">
+          <content>
+            <sequence>
+              <sequence>
+                <elementRef key="titleStmt"/>
+                <elementRef key="editionStmt" minOccurs="0"/>
+                <elementRef key="extent" minOccurs="0"/>
+                <elementRef key="publicationStmt"/>
+                <elementRef key="seriesStmt" minOccurs="1" maxOccurs="unbounded"/>
+                <elementRef key="notesStmt" minOccurs="0"/>
+              </sequence>
+              <elementRef key="sourceDesc" minOccurs="1" maxOccurs="unbounded"/>
+            </sequence>
+          </content>
+        </elementSpec>
+        
+        
         <!-- namesdates module -->
         <specGrpRef target="#personReferenceElement"/>
         <!-- verse module -->
@@ -137,6 +164,15 @@
             </attDef>
           </attList>
         </elementSpec>
+        
+        <elementSpec ident="body" mode="change">
+          <constraintSpec ident="require-docback" scheme="schematron">
+            <constraint>
+              <sch:assert test="tei:div[@type eq 'docback']">A div with type attribute "docback" is required.</sch:assert>
+            </constraint>
+          </constraintSpec>
+        </elementSpec>
+        
         <elementSpec ident="div" mode="change">
           <attList>
             <attDef ident="type" mode="change">
