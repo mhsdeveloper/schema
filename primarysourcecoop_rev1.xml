@@ -27,25 +27,26 @@
       </sourceDesc>
     </fileDesc>
     <revisionDesc>
+      <change who="#lj" when="2021-05-10">Added <name>require-encodingDesc</name> and <name>require-docback</name> constraints.</change>
       <change who="#lj" when="2021-05-04">Added a content model for <gi>respStmt</gi>.</change>
-      <change who="#bb" when="2020-12-15"> Added new tei header to accomodate moving metadata (author/recip etc) out of bibl. </change>
-      <change who="#lj" when="2020-12-07">Added <gi>resp</gi> and <gi>respStmt</gi> to the
-        header.</change>
-      <change who="#bb" when="2018-11-27"> Added <gi>del</gi>. </change>
-      <change who="#sb" when="2018-10-02"> Add new <gi>persRef</gi>. </change>
-      <change who="#sb" when="2018-09-14"><list>
+      <change who="#bb" when="2020-12-15">Added new tei header to accomodate moving metadata (author/recip etc) out of bibl. </change>
+      <change who="#lj" when="2020-12-07">Added <gi>resp</gi> and <gi>respStmt</gi> to the header.</change>
+      <change who="#bb" when="2018-12-03">Added <gi>gap</gi>. Removed namespace from new <gi>persRef</gi> element.</change>
+      <change who="#bb" when="2018-11-27">Added <gi>del</gi>.</change>
+      <change who="#sb" when="2018-10-02">Add new <gi>persRef</gi>.</change>
+      <change who="#sb" when="2018-09-14">
+        <list>
           <item>Minor tweaks to metadata, etc</item>
           <item>Deleted lots of pointless stuff</item>
-          <item>Added <val>month</val> to <att>type</att> of <gi>div</gi> (dunno why it wasn't
-            already there)</item>
+          <item>Added <val>month</val> to <att>type</att> of
+          <gi>div</gi> (dunno why it wasn't already there)</item>
           <item>Added MHS placeholder namespace</item>
           <item>Added <att>mhs:startingOnPage</att> and <att>mhs:volume</att> of <gi>div</gi></item>
-        </list></change>
+        </list>
+      </change>
       <change who="#sb" when="2018-09-13">Created with <name type="pgm">oddbyexample</name> using
         the current release version of P5 and the 5 example files in
         codem/manage/samplexml/jqa/*.xml</change>
-      <change who="#bb" when="2018-12-03"> Added <gi>gap</gi>. Removed namespace from new
-          <gi>persRef</gi> element. </change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -53,8 +54,6 @@
       <head>Primary Source Cooperative at the Masschusetts Historical Society Encoding
         Language</head>
       <p>We use a highly constrained TEI customization with a few extensions.</p>
-      <specGrp xml:id="personReferenceElement"
-        ><!-- removing namespace for this element, because our encoders are having difficulty  ns="http://www.masshist.org/ns/1.0" --><!-- persref was here --></specGrp>
     </body>
     <back>
       <schemaSpec ident="primarysourcecoop_rev1" start="TEI teiCorpus div">
@@ -118,6 +117,7 @@
           </content>
         </elementSpec>
         
+        <!-- header module -->
         <moduleRef key="header"/>
         <elementSpec ident="teiHeader" mode="change">
           <constraintSpec ident="require-encodingDesc" scheme="schematron">
@@ -145,7 +145,6 @@
         
         
         <!-- namesdates module -->
-        <specGrpRef target="#personReferenceElement"/>
         <!-- verse module -->
         <!-- transcr module -->
         <moduleRef key="transcr" include="space supplied"/>
@@ -165,7 +164,7 @@
           </attList>
         </elementSpec>
         
-        <elementSpec ident="body" mode="change">
+        <elementSpec ident="body" mode="change" module="textstructure">
           <constraintSpec ident="require-docback" scheme="schematron">
             <constraint>
               <sch:assert test="tei:div[@type eq 'docback']">A div with type attribute "docback" is required.</sch:assert>
@@ -224,12 +223,6 @@
             <attDef ident="rows" mode="delete"/>
           </attList>
         </elementSpec>
-        <!--  We will need cells to specify col span, so not deleting this      <elementSpec ident="cell" mode="change">
-          <attList>
-            <attDef ident="cols" mode="delete"/>
-          </attList>
-        </elementSpec>
--->
         <elementSpec ident="persRef" mode="add">
           <equiv filter="./codem2tei.xslt"/>
           <gloss>person reference</gloss>
@@ -281,6 +274,7 @@
             <memberOf key="att.global"/>
           </classes>
         </elementSpec>
+        <!-- msdescription module -->
         <moduleRef key="msdescription"
           except="accMat acquisition additional additions adminInfo altIdentifier binding bindingDesc catchwords collation colophon condition custEvent custodialHist decoDesc decoNote depth dim dimensions explicit filiation finalRubric foliation handDesc height heraldry history incipit layout layoutDesc locus locusGrp msFrag msItemStruct musicNotation objectDesc objectType origDate origPlace origin provenance recordHist rubric scriptDesc seal sealDesc secFol signatures source stamp summary support supportDesc surrogates typeDesc typeNote watermark width"
         />
