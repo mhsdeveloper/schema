@@ -27,6 +27,17 @@
       </sourceDesc>
     </fileDesc>
     <revisionDesc>
+      <change who="#sb" when="2021-05-18">
+	<list>
+	  <item>Added the WWP’s datingAttr constraint. This may not be
+	  appropriate, as it requires <emph>all</emph> instances of
+	  <gi>date</gi> to have a <att>when</att> (or whatever),
+	  including the one in <gi>bibl</gi> in <gi>sourceDesc</gi>,
+	  which I think the MHSers do not want.</item>
+	  <item>Added source_date_content constraint, which may need
+	  to be tweaked.</item>
+	</list>
+      </change>
       <change who="#sb" when="2021-05-17">
 	<list>
 	  <item>added note-in-respStmt constraint</item>
@@ -69,6 +80,33 @@
         <!-- core module -->
         <moduleRef key="core" include="abbr add author bibl cb date del editor expan gap head hi item l label lb lg list name note orig p pb ptr ref reg resp respStmt title unclear sourceDesc textClass keywords list"/>
         <elementSpec ident="date" mode="change">
+          <constraintSpec scheme="schematron" ident="datingAttr">
+	    <!-- Copied directly from wwp-store 2021-05-18 by Syd -->
+            <constraint>
+              <sch:pattern>
+                <sch:rule context="tei:application
+                                  |tei:date[not(@prev|@calendar)]
+                                  |tei:time[not(@prev|@calendar)]">
+                  <sch:assert test="@when or @when-custom or @when-iso or
+                                    @notBefore or @notBefore-custom or @notBefore-iso or
+                                    @notAfter or @notAfter-iso or @notAfter-custom or
+                                    @from or @from-custom or @from-iso or
+                                    @to or @to-custom or @to-iso"
+                              >At least one temporal normalization attribute should be specified on a ＜<sch:value-of
+                                    select="name(.)"/>＞.</sch:assert>
+                </sch:rule>
+              </sch:pattern>
+            </constraint>
+          </constraintSpec>
+	  <constraintSpec ident="source_date_content" scheme="schematron">
+	    <constraint>
+	      <sch:rule context="tei:sourceDesc/tei:bibl/tei:date">
+		<sch:assert test="matches( normalize-space(.), '^(([0-9]{1,2} )?[A-Z][a-z]+ )?[0-9]+$' )">
+		  The source date should contain a human-readable date in the form “DD Mon YYYY”
+		</sch:assert>
+	      </sch:rule>
+	    </constraint>
+	  </constraintSpec>
           <attList>
             <attDef ident="type" mode="change">
               <valList mode="add" type="closed">

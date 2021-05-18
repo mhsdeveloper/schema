@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <grammar xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:teix="http://www.tei-c.org/ns/Examples" xmlns="http://relaxng.org/ns/structure/1.0" datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes" ns="http://www.tei-c.org/ns/1.0">
   <!--
-Schema generated from ODD source 2021-05-18T01:52:57Z. .
+Schema generated from ODD source 2021-05-18T14:03:06Z. .
 TEI Edition: Version 4.3.0a. Last updated on
         10th May 2021, revision 8af678c2f
 TEI Edition Location: https://www.tei-c.org/Vault/P5/Version 4.3.0a./
@@ -2542,6 +2542,18 @@ Sample values include: 1] rubbing; 2] mildew; 3] smoke</a:documentation>
           <ref name="primarysourcecoop_rev1_model.global"/>
         </choice>
       </zeroOrMore>
+      <sch:pattern xmlns:rng="http://relaxng.org/ns/structure/1.0" xmlns="http://www.tei-c.org/ns/1.0" xmlns:mhs="http://www.masshist.org/ns/1.0" xmlns:sch="http://purl.oclc.org/dsdl/schematron">
+        <sch:rule context="tei:application                                   |tei:date[not(@prev|@calendar)]                                   |tei:time[not(@prev|@calendar)]">
+          <sch:assert test="@when or @when-custom or @when-iso or                                     @notBefore or @notBefore-custom or @notBefore-iso or                                     @notAfter or @notAfter-iso or @notAfter-custom or                                     @from or @from-custom or @from-iso or                                     @to or @to-custom or @to-iso">At least one temporal normalization attribute should be specified on a ＜<sch:value-of select="name(.)"/>＞.</sch:assert>
+        </sch:rule>
+      </sch:pattern>
+      <pattern xmlns="http://purl.oclc.org/dsdl/schematron" id="primarysourcecoop_rev1-date-source_date_content-constraint-rule-10">
+        <sch:rule xmlns:sch="http://purl.oclc.org/dsdl/schematron" context="tei:sourceDesc/tei:bibl/tei:date">
+          <sch:assert test="matches( normalize-space(.), '^(([0-9]{1,2} )?[A-Z][a-z]+ )?[0-9]+$' )">
+		  The source date should contain a human-readable date in the form “DD Mon YYYY”
+		</sch:assert>
+        </sch:rule>
+      </pattern>
       <ref name="primarysourcecoop_rev1_att.global.attributes"/>
       <ref name="primarysourcecoop_rev1_att.canonical.attributes"/>
       <ref name="primarysourcecoop_rev1_att.datable.attributes"/>
@@ -2701,7 +2713,7 @@ attributes @target and @cRef may be supplied on <name/>.</report>
           </group>
         </zeroOrMore>
       </group>
-      <pattern xmlns="http://purl.oclc.org/dsdl/schematron" id="primarysourcecoop_rev1-list-gloss-list-must-have-labels-constraint-rule-9">
+      <pattern xmlns="http://purl.oclc.org/dsdl/schematron" id="primarysourcecoop_rev1-list-gloss-list-must-have-labels-constraint-rule-11">
         <sch:rule xmlns:rng="http://relaxng.org/ns/structure/1.0" xmlns="http://www.tei-c.org/ns/1.0" xmlns:mhs="http://www.masshist.org/ns/1.0" xmlns:sch="http://purl.oclc.org/dsdl/schematron" context="tei:list[@type='gloss']">
           <sch:assert test="tei:label">The content of a "gloss" list should include a sequence of one or more pairs of a label element followed by an item element</sch:assert>
         </sch:rule>
@@ -2849,7 +2861,7 @@ Elements]</a:documentation>
           <ref name="primarysourcecoop_rev1_note"/>
         </zeroOrMore>
       </group>
-      <pattern xmlns="http://purl.oclc.org/dsdl/schematron" id="primarysourcecoop_rev1-respStmt-note-in-respStmt-constraint-rule-10">
+      <pattern xmlns="http://purl.oclc.org/dsdl/schematron" id="primarysourcecoop_rev1-respStmt-note-in-respStmt-constraint-rule-12">
         <sch:rule xmlns:rng="http://relaxng.org/ns/structure/1.0" xmlns="http://www.tei-c.org/ns/1.0" xmlns:mhs="http://www.masshist.org/ns/1.0" xmlns:sch="http://purl.oclc.org/dsdl/schematron" context="tei:respStmt">
           <sch:assert test="tei:note">A responsibility statement needs a child note element</sch:assert>
         </sch:rule>
@@ -2996,7 +3008,7 @@ Sample values include: 1] main; 2] sub (subordinate); 3] alt (alternate); 4] sho
           </group>
         </zeroOrMore>
       </group>
-      <pattern xmlns="http://purl.oclc.org/dsdl/schematron" id="primarysourcecoop_rev1-lg-atleast1oflggapl-constraint-assert-12">
+      <pattern xmlns="http://purl.oclc.org/dsdl/schematron" id="primarysourcecoop_rev1-lg-atleast1oflggapl-constraint-assert-14">
         <rule context="tei:lg">
           <sch:assert xmlns:rng="http://relaxng.org/ns/structure/1.0" xmlns="http://www.tei-c.org/ns/1.0" xmlns:mhs="http://www.masshist.org/ns/1.0" xmlns:sch="http://purl.oclc.org/dsdl/schematron" test="count(descendant::tei:lg|descendant::tei:l|descendant::tei:gap) &gt; 0">An lg element
         must contain at least one child l, lg, or gap element.</sch:assert>
@@ -3044,7 +3056,7 @@ Sample values include: 1] main; 2] sub (subordinate); 3] alt (alternate); 4] sho
           <ref name="primarysourcecoop_rev1_revisionDesc"/>
         </optional>
       </group>
-      <pattern xmlns="http://purl.oclc.org/dsdl/schematron" id="primarysourcecoop_rev1-teiHeader-require-encodingDesc-constraint-assert-13">
+      <pattern xmlns="http://purl.oclc.org/dsdl/schematron" id="primarysourcecoop_rev1-teiHeader-require-encodingDesc-constraint-assert-15">
         <rule context="tei:teiHeader">
           <sch:assert xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:rng="http://relaxng.org/ns/structure/1.0" xmlns="http://www.tei-c.org/ns/1.0" xmlns:mhs="http://www.masshist.org/ns/1.0" xmlns:sch="http://purl.oclc.org/dsdl/schematron" test="tei:encodingDesc">An encoding description (element "encodingDesc") is required in the TEI Header.</sch:assert>
         </rule>
@@ -3179,13 +3191,14 @@ Sample values include: 1] main; 2] sub (subordinate); 3] alt (alternate); 4] sho
           <ref name="primarysourcecoop_rev1_model.pLike"/>
         </oneOrMore>
       </choice>
-      <pattern xmlns="http://purl.oclc.org/dsdl/schematron" id="primarysourcecoop_rev1-publicationStmt-publication_date-constraint-rule-13">
+      <pattern xmlns="http://purl.oclc.org/dsdl/schematron" id="primarysourcecoop_rev1-publicationStmt-publication_date-constraint-rule-15">
         <sch:rule xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:rng="http://relaxng.org/ns/structure/1.0" xmlns="http://www.tei-c.org/ns/1.0" xmlns:mhs="http://www.masshist.org/ns/1.0" xmlns:sch="http://purl.oclc.org/dsdl/schematron" context="tei:publicationStmt/tei:date">
           <sch:let name="date" value="normalize-space(.)"/>
-          <sch:let name="year" value="substring( $date, 1, 4 ) cast as xs:integer"/>
+          <sch:let name="year" value="if ( matches( $date, '^[0-9]+$' ) )        then $date cast as xs:integer        else        if ( contains( $date, '-' ) )          then substring-before( $date, '-') cast as xs:integer          else 0"/>
           <sch:let name="next" value="$year + 1"/>
-          <sch:assert test="matches( $date, '2[0-9][0-9][0-9]')">The date of publication should be in the 21st century</sch:assert>
-          <sch:report test="year-from-date( current-date() ) ge $next">The date of publication should not be in the future (at least, not past next year)</sch:report>
+          <sch:assert test="   $date castable as xs:gYear          or $date castable as xs:gYearMonth          or $date castable as xs:date">The publication date should be a year in YYYY format, a year and month in YYYY-MM format, or a date in YYYY-MM-DD format.</sch:assert>
+          <sch:assert test="matches( $date, '^2[0-9][0-9][0-9](-[01][0-9](-[0-3])?)?')">The date of publication should be in the 21st century</sch:assert>
+          <sch:report test="$next ge year-from-date( current-date() )">The date of publication should not be in the future (at least, not past next year)</sch:report>
         </sch:rule>
       </pattern>
       <ref name="primarysourcecoop_rev1_att.global.attributes"/>
@@ -3779,7 +3792,7 @@ Sample values include: 1] first-line; 2] first-letter; 3] before; 4] after</a:do
           </data>
         </attribute>
       </optional>
-      <pattern xmlns="http://purl.oclc.org/dsdl/schematron" id="primarysourcecoop_rev1-citeStructure-delim-citestructure-inner-delim-constraint-rule-14">
+      <pattern xmlns="http://purl.oclc.org/dsdl/schematron" id="primarysourcecoop_rev1-citeStructure-delim-citestructure-inner-delim-constraint-rule-16">
         <rule xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:rng="http://relaxng.org/ns/structure/1.0" xmlns:mhs="http://www.masshist.org/ns/1.0" xmlns:sch="http://purl.oclc.org/dsdl/schematron" context="tei:citeStructure[parent::tei:citeStructure]">
           <assert test="@delim">A <name/> with a parent <name/> must have a @delim attribute.</assert>
         </rule>
@@ -3788,12 +3801,12 @@ Sample values include: 1] first-line; 2] first-letter; 3] before; 4] after</a:do
         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(match) supplies an XPath selection pattern using the syntax defined in  which identifies a set of nodes which are citable structural components. The expression may be absolute (beginning with ) or relative. <code xmlns="http://www.w3.org/1999/xhtml">@match</code> on a <code xmlns="http://www.w3.org/1999/xhtml">&lt;citeStructure&gt;</code> without a <code xmlns="http://www.w3.org/1999/xhtml">&lt;citeStructure&gt;</code> parent must be an absolute XPath. If it is relative, its context is set by the <code xmlns="http://www.w3.org/1999/xhtml">@match</code> of the parent <code xmlns="http://www.w3.org/1999/xhtml">&lt;citeStructure&gt;</code>.</a:documentation>
         <text/>
       </attribute>
-      <pattern xmlns="http://purl.oclc.org/dsdl/schematron" id="primarysourcecoop_rev1-citeStructure-match-citestructure-outer-match-constraint-rule-15">
+      <pattern xmlns="http://purl.oclc.org/dsdl/schematron" id="primarysourcecoop_rev1-citeStructure-match-citestructure-outer-match-constraint-rule-17">
         <rule xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:rng="http://relaxng.org/ns/structure/1.0" xmlns:mhs="http://www.masshist.org/ns/1.0" xmlns:sch="http://purl.oclc.org/dsdl/schematron" context="tei:citeStructure[not(parent::tei:citeStructure)]">
           <assert test="starts-with(@match,'/')">An XPath in @match on the outer <name/> must start with '/'.</assert>
         </rule>
       </pattern>
-      <pattern xmlns="http://purl.oclc.org/dsdl/schematron" id="primarysourcecoop_rev1-citeStructure-match-citestructure-inner-match-constraint-rule-16">
+      <pattern xmlns="http://purl.oclc.org/dsdl/schematron" id="primarysourcecoop_rev1-citeStructure-match-citestructure-inner-match-constraint-rule-18">
         <rule xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:rng="http://relaxng.org/ns/structure/1.0" xmlns:mhs="http://www.masshist.org/ns/1.0" xmlns:sch="http://purl.oclc.org/dsdl/schematron" context="tei:citeStructure[parent::tei:citeStructure]">
           <assert test="not(starts-with(@match,'/'))">An XPath in @match must not start with '/' except on the outer <name/>.</assert>
         </rule>
@@ -4662,7 +4675,7 @@ Suggested values include: 1] sent; 2] received; 3] transmitted; 4] redirected; 5
           </group>
         </zeroOrMore>
       </group>
-      <pattern xmlns="http://purl.oclc.org/dsdl/schematron" id="primarysourcecoop_rev1-body-require-docback-constraint-assert-18">
+      <pattern xmlns="http://purl.oclc.org/dsdl/schematron" id="primarysourcecoop_rev1-body-require-docback-constraint-assert-21">
         <rule context="tei:body">
           <sch:assert xmlns:rng="http://relaxng.org/ns/structure/1.0" xmlns="http://www.tei-c.org/ns/1.0" xmlns:mhs="http://www.masshist.org/ns/1.0" xmlns:sch="http://purl.oclc.org/dsdl/schematron" test="tei:div[@type eq 'docback']">A div with type attribute "docback" is required.</sch:assert>
         </rule>
