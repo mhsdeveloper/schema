@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <grammar xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:teix="http://www.tei-c.org/ns/Examples" xmlns="http://relaxng.org/ns/structure/1.0" datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes" ns="http://www.tei-c.org/ns/1.0">
   <!--
-Schema generated from ODD source 2021-05-18T14:03:06Z. .
+Schema generated from ODD source 2021-05-19T18:43:16Z. .
 TEI Edition: Version 4.3.0a. Last updated on
-        10th May 2021, revision 8af678c2f
+        11th May 2021, revision 00f04903d
 TEI Edition Location: https://www.tei-c.org/Vault/P5/Version 4.3.0a./
  Schema intended to support at least jqa/ & correspondence/ 
 -->
@@ -2544,14 +2544,14 @@ Sample values include: 1] rubbing; 2] mildew; 3] smoke</a:documentation>
       </zeroOrMore>
       <sch:pattern xmlns:rng="http://relaxng.org/ns/structure/1.0" xmlns="http://www.tei-c.org/ns/1.0" xmlns:mhs="http://www.masshist.org/ns/1.0" xmlns:sch="http://purl.oclc.org/dsdl/schematron">
         <sch:rule context="tei:application                                   |tei:date[not(@prev|@calendar)]                                   |tei:time[not(@prev|@calendar)]">
-          <sch:assert test="@when or @when-custom or @when-iso or                                     @notBefore or @notBefore-custom or @notBefore-iso or                                     @notAfter or @notAfter-iso or @notAfter-custom or                                     @from or @from-custom or @from-iso or                                     @to or @to-custom or @to-iso">At least one temporal normalization attribute should be specified on a ＜<sch:value-of select="name(.)"/>＞.</sch:assert>
+          <sch:assert test="@when or @when-custom or @when-iso or                                     @notBefore or @notBefore-custom or @notBefore-iso or                                     @notAfter or @notAfter-iso or @notAfter-custom or                                     @from or @from-custom or @from-iso or                                     @to or @to-custom or @to-iso">At least one temporal normalization attribute should be specified on a &lt;<sch:value-of select="name(.)"/>&gt;.</sch:assert>
         </sch:rule>
       </sch:pattern>
       <pattern xmlns="http://purl.oclc.org/dsdl/schematron" id="primarysourcecoop_rev1-date-source_date_content-constraint-rule-10">
         <sch:rule xmlns:sch="http://purl.oclc.org/dsdl/schematron" context="tei:sourceDesc/tei:bibl/tei:date">
           <sch:assert test="matches( normalize-space(.), '^(([0-9]{1,2} )?[A-Z][a-z]+ )?[0-9]+$' )">
-		  The source date should contain a human-readable date in the form “DD Mon YYYY”
-		</sch:assert>
+                  The source date should contain a human-readable date in the form “DD Mon YYYY”
+                </sch:assert>
         </sch:rule>
       </pattern>
       <ref name="primarysourcecoop_rev1_att.global.attributes"/>
@@ -2863,15 +2863,15 @@ Elements]</a:documentation>
       </group>
       <pattern xmlns="http://purl.oclc.org/dsdl/schematron" id="primarysourcecoop_rev1-respStmt-note-in-respStmt-constraint-rule-12">
         <sch:rule xmlns:rng="http://relaxng.org/ns/structure/1.0" xmlns="http://www.tei-c.org/ns/1.0" xmlns:mhs="http://www.masshist.org/ns/1.0" xmlns:sch="http://purl.oclc.org/dsdl/schematron" context="tei:respStmt">
-          <sch:assert test="tei:note">A responsibility statement needs a child note element</sch:assert>
+          <sch:assert test="tei:note">A responsibility statement needs a child &lt;note&gt; element</sch:assert>
         </sch:rule>
         <sch:rule xmlns:rng="http://relaxng.org/ns/structure/1.0" xmlns="http://www.tei-c.org/ns/1.0" xmlns:mhs="http://www.masshist.org/ns/1.0" xmlns:sch="http://purl.oclc.org/dsdl/schematron" context="tei:respStmt/tei:note">
-          <sch:assert test="tei:date">The date of a responsibility statement should be indicated by a 'date' in the 'note'</sch:assert>
+          <sch:assert test="tei:date">The date of a responsibility statement should be indicated by a &lt;date&gt; in the &lt;note&gt;</sch:assert>
         </sch:rule>
         <sch:rule xmlns:rng="http://relaxng.org/ns/structure/1.0" xmlns="http://www.tei-c.org/ns/1.0" xmlns:mhs="http://www.masshist.org/ns/1.0" xmlns:sch="http://purl.oclc.org/dsdl/schematron" context="tei:respStmt/tei:note/tei:date">
-          <sch:assert test="@type eq 'transcription'">The date inside the note of a responsibility statement should be categorized with @type (as a transcriptional note, i.e. type="transcription")</sch:assert>
-          <sch:assert test="@when">The date inside the note of a responsibility statement must have a machine readable date (on @when)</sch:assert>
-          <sch:assert test="normalize-space(.) eq ''">The date inside the note of a responsibility statement should be empty</sch:assert>
+          <sch:assert test="@type eq 'transcription'">The &lt;date&gt; inside the &lt;note&gt; of a &lt;respStmt&gt; should be categorized with @type (as a transcriptional note, i.e. type="transcription")</sch:assert>
+          <sch:assert test="@when">The &lt;date&gt; inside the &lt;note&gt; of a &lt;respStmt&gt; must have a machine readable date (on @when)</sch:assert>
+          <sch:assert test="normalize-space(.) eq ''">The &lt;date&gt; inside the &lt;note&gt; of a &lt;respStmt&gt; should be empty</sch:assert>
         </sch:rule>
       </pattern>
       <ref name="primarysourcecoop_rev1_att.global.attributes"/>
@@ -3194,10 +3194,10 @@ Sample values include: 1] main; 2] sub (subordinate); 3] alt (alternate); 4] sho
       <pattern xmlns="http://purl.oclc.org/dsdl/schematron" id="primarysourcecoop_rev1-publicationStmt-publication_date-constraint-rule-15">
         <sch:rule xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:rng="http://relaxng.org/ns/structure/1.0" xmlns="http://www.tei-c.org/ns/1.0" xmlns:mhs="http://www.masshist.org/ns/1.0" xmlns:sch="http://purl.oclc.org/dsdl/schematron" context="tei:publicationStmt/tei:date">
           <sch:let name="date" value="normalize-space(.)"/>
-          <sch:let name="year" value="if ( matches( $date, '^[0-9]+$' ) )        then $date cast as xs:integer        else        if ( contains( $date, '-' ) )          then substring-before( $date, '-') cast as xs:integer          else 0"/>
+          <sch:let name="year" value="if ( matches( $date, '^[0-9]+$' ) )                                           then $date cast as xs:integer                                           else                                           if ( contains( $date, '-' ) )                                             then substring-before( $date, '-') cast as xs:integer                                             else 0"/>
           <sch:let name="next" value="$year + 1"/>
-          <sch:assert test="   $date castable as xs:gYear          or $date castable as xs:gYearMonth          or $date castable as xs:date">The publication date should be a year in YYYY format, a year and month in YYYY-MM format, or a date in YYYY-MM-DD format.</sch:assert>
-          <sch:assert test="matches( $date, '^2[0-9][0-9][0-9](-[01][0-9](-[0-3])?)?')">The date of publication should be in the 21st century</sch:assert>
+          <sch:assert test="$date castable as xs:gYear                                or $date castable as xs:gYearMonth                                or $date castable as xs:date">The publication date should be a year in YYYY format, a year and month in YYYY-MM format, or a date in YYYY-MM-DD format.</sch:assert>
+          <sch:assert test="matches( $date, '^20[0-9][0-9](-[01][0-9](-[0-3])?)?')">The date of publication should be in the 21st century</sch:assert>
           <sch:report test="$next ge year-from-date( current-date() )">The date of publication should not be in the future (at least, not past next year)</sch:report>
         </sch:rule>
       </pattern>

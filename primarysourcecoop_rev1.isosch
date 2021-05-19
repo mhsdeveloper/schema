@@ -1,202 +1,202 @@
 <?xml version="1.0" encoding="utf-8"?>
 <schema xmlns="http://purl.oclc.org/dsdl/schematron" queryBinding="xslt2">
-  <title>ISO Schematron rules</title>
-  <!-- This file generated 2021-05-18T14:03:08Z by 'extract-isosch.xsl'. -->
-  <!-- ********************* -->
-  <!-- namespaces, declared: -->
-  <!-- ********************* -->
-  <ns prefix="tei" uri="http://www.tei-c.org/ns/1.0"/>
-  <ns prefix="xs" uri="http://www.w3.org/2001/XMLSchema"/>
-  <ns prefix="rng" uri="http://relaxng.org/ns/structure/1.0"/>
-  <!-- ********************* -->
-  <!-- namespaces, implicit: -->
-  <!-- ********************* -->
-  <ns prefix="mhs" uri="http://www.masshist.org/ns/1.0"/>
-  <!-- ************ -->
-  <!-- constraints: -->
-  <!-- ************ -->
-  <pattern id="schematron-constraint-primarysourcecoop_rev1-att.datable.w3c-att-datable-w3c-when-1">
-    <rule context="tei:*[@when]">
-      <report test="@notBefore|@notAfter|@from|@to" role="nonfatal">The @when attribute cannot be used with any other att.datable.w3c attributes.</report>
-    </rule>
-  </pattern>
-  <pattern id="schematron-constraint-primarysourcecoop_rev1-att.datable.w3c-att-datable-w3c-from-2">
-    <rule context="tei:*[@from]">
-      <report test="@notBefore" role="nonfatal">The @from and @notBefore attributes cannot be used together.</report>
-    </rule>
-  </pattern>
-  <pattern id="schematron-constraint-primarysourcecoop_rev1-att.datable.w3c-att-datable-w3c-to-3">
-    <rule context="tei:*[@to]">
-      <report test="@notAfter" role="nonfatal">The @to and @notAfter attributes cannot be used together.</report>
-    </rule>
-  </pattern>
-  <pattern id="schematron-constraint-primarysourcecoop_rev1-att.datable-calendar-calendar-4">
-    <rule context="tei:*[@calendar]">
-      <assert test="string-length(.) gt 0"> @calendar indicates one or more systems or calendars to
-      which the date represented by the content of this element belongs, but this
-      <name/> element has no textual content.</assert>
-    </rule>
-  </pattern>
-  <pattern id="schematron-constraint-primarysourcecoop_rev1-att.typed-subtypeTyped-5">
-    <rule context="tei:*[@subtype]">
-      <assert test="@type">The <name/> element should not be categorized in detail with @subtype unless also categorized in general with @type</assert>
-    </rule>
-  </pattern>
-  <pattern id="schematron-constraint-primarysourcecoop_rev1-att.pointing-targetLang-targetLang-6">
-    <rule context="tei:*[not(self::tei:schemaSpec)][@targetLang]">
-      <assert test="@target">@targetLang should only be used on <name/> if @target is specified.</assert>
-    </rule>
-  </pattern>
-  <pattern id="schematron-constraint-primarysourcecoop_rev1-att.spanning-spanTo-spanTo-2-7">
-    <rule context="tei:*[@spanTo]">
-      <assert test="id(substring(@spanTo,2)) and following::*[@xml:id=substring(current()/@spanTo,2)]">
-        The element indicated by @spanTo (<value-of select="@spanTo"/>) must follow the current element <name/>
-      </assert>
-    </rule>
-  </pattern>
-  <pattern id="schematron-constraint-primarysourcecoop_rev1-att.styleDef-schemeVersion-schemeVersionRequiresScheme-8">
-    <rule context="tei:*[@schemeVersion]">
-      <assert test="@scheme and not(@scheme = 'free')">
-        @schemeVersion can only be used if @scheme is specified.
-      </assert>
-    </rule>
-  </pattern>
-  <pattern id="schematron-constraint-primarysourcecoop_rev1-p-abstractModel-structure-p-9">
-    <rule context="tei:p">
-      <report test="not(ancestor::tei:floatingText) and (ancestor::tei:p or ancestor::tei:ab)          and not(parent::tei:exemplum                |parent::tei:item                |parent::tei:note                |parent::tei:q                |parent::tei:quote                |parent::tei:remarks                |parent::tei:said                |parent::tei:sp                |parent::tei:stage                |parent::tei:cell                |parent::tei:figure                )">
+   <title>ISO Schematron rules</title>
+   <!-- This file generated 2021-05-19T18:43:18Z by 'extract-isosch.xsl'. -->
+   <!-- ********************* -->
+   <!-- namespaces, declared: -->
+   <!-- ********************* -->
+   <ns prefix="tei" uri="http://www.tei-c.org/ns/1.0"/>
+   <ns prefix="xs" uri="http://www.w3.org/2001/XMLSchema"/>
+   <ns prefix="rng" uri="http://relaxng.org/ns/structure/1.0"/>
+   <!-- ********************* -->
+   <!-- namespaces, implicit: -->
+   <!-- ********************* -->
+   <ns prefix="mhs" uri="http://www.masshist.org/ns/1.0"/>
+   <!-- ************ -->
+   <!-- constraints: -->
+   <!-- ************ -->
+   <pattern id="schematron-constraint-primarysourcecoop_rev1-att.datable.w3c-att-datable-w3c-when-1">
+      <rule context="tei:*[@when]">
+         <report test="@notBefore|@notAfter|@from|@to" role="nonfatal">The @when attribute cannot be used with any other att.datable.w3c attributes.</report>
+      </rule>
+   </pattern>
+   <pattern id="schematron-constraint-primarysourcecoop_rev1-att.datable.w3c-att-datable-w3c-from-2">
+      <rule context="tei:*[@from]">
+         <report test="@notBefore" role="nonfatal">The @from and @notBefore attributes cannot be used together.</report>
+      </rule>
+   </pattern>
+   <pattern id="schematron-constraint-primarysourcecoop_rev1-att.datable.w3c-att-datable-w3c-to-3">
+      <rule context="tei:*[@to]">
+         <report test="@notAfter" role="nonfatal">The @to and @notAfter attributes cannot be used together.</report>
+      </rule>
+   </pattern>
+   <pattern id="schematron-constraint-primarysourcecoop_rev1-att.datable-calendar-calendar-4">
+      <rule context="tei:*[@calendar]">
+         <assert test="string-length(.) gt 0"> @calendar indicates one or more systems or calendars to
+              which the date represented by the content of this element belongs, but this
+              <name/> element has no textual content.</assert>
+      </rule>
+   </pattern>
+   <pattern id="schematron-constraint-primarysourcecoop_rev1-att.typed-subtypeTyped-5">
+      <rule context="tei:*[@subtype]">
+         <assert test="@type">The <name/> element should not be categorized in detail with @subtype unless also categorized in general with @type</assert>
+      </rule>
+   </pattern>
+   <pattern id="schematron-constraint-primarysourcecoop_rev1-att.pointing-targetLang-targetLang-6">
+      <rule context="tei:*[not(self::tei:schemaSpec)][@targetLang]">
+         <assert test="@target">@targetLang should only be used on <name/> if @target is specified.</assert>
+      </rule>
+   </pattern>
+   <pattern id="schematron-constraint-primarysourcecoop_rev1-att.spanning-spanTo-spanTo-2-7">
+      <rule context="tei:*[@spanTo]">
+         <assert test="id(substring(@spanTo,2)) and following::*[@xml:id=substring(current()/@spanTo,2)]">
+The element indicated by @spanTo (<value-of select="@spanTo"/>) must follow the current element <name/>
+         </assert>
+      </rule>
+   </pattern>
+   <pattern id="schematron-constraint-primarysourcecoop_rev1-att.styleDef-schemeVersion-schemeVersionRequiresScheme-8">
+      <rule context="tei:*[@schemeVersion]">
+         <assert test="@scheme and not(@scheme = 'free')">
+              @schemeVersion can only be used if @scheme is specified.
+            </assert>
+      </rule>
+   </pattern>
+   <pattern id="schematron-constraint-primarysourcecoop_rev1-p-abstractModel-structure-p-9">
+      <rule context="tei:p">
+         <report test="not(ancestor::tei:floatingText) and (ancestor::tei:p or ancestor::tei:ab)          and not(parent::tei:exemplum                |parent::tei:item                |parent::tei:note                |parent::tei:q                |parent::tei:quote                |parent::tei:remarks                |parent::tei:said                |parent::tei:sp                |parent::tei:stage                |parent::tei:cell                |parent::tei:figure                )">
         Abstract model violation: Paragraphs may not occur inside other paragraphs or ab elements.
       </report>
-    </rule>
-  </pattern>
-  <pattern id="schematron-constraint-primarysourcecoop_rev1-p-abstractModel-structure-l-10">
-    <rule context="tei:p">
-      <report test="ancestor::tei:l[not(.//tei:note//tei:p[. = current()])]">
+      </rule>
+   </pattern>
+   <pattern id="schematron-constraint-primarysourcecoop_rev1-p-abstractModel-structure-l-10">
+      <rule context="tei:p">
+         <report test="ancestor::tei:l[not(.//tei:note//tei:p[. = current()])]">
         Abstract model violation: Lines may not contain higher-level structural elements such as div, p, or ab.
       </report>
-    </rule>
-  </pattern>
-  <pattern>
-    <rule context="tei:application                                   |tei:date[not(@prev|@calendar)]                                   |tei:time[not(@prev|@calendar)]">
-      <assert test="@when or @when-custom or @when-iso or                                     @notBefore or @notBefore-custom or @notBefore-iso or                                     @notAfter or @notAfter-iso or @notAfter-custom or                                     @from or @from-custom or @from-iso or                                     @to or @to-custom or @to-iso">At least one temporal normalization attribute should be specified on a ＜<value-of select="name(.)"/>＞.</assert>
-    </rule>
-  </pattern>
-  <pattern id="schematron-constraint-primarysourcecoop_rev1-date-source_date_content-12">
-    <rule context="tei:sourceDesc/tei:bibl/tei:date">
-      <assert test="matches( normalize-space(.), '^(([0-9]{1,2} )?[A-Z][a-z]+ )?[0-9]+$' )">
-        The source date should contain a human-readable date in the form “DD Mon YYYY”
-      </assert>
-    </rule>
-  </pattern>
-  <pattern id="schematron-constraint-primarysourcecoop_rev1-ptr-ptrAtts-13">
-    <rule context="tei:ptr">
-      <report test="@target and @cRef">Only one of the
-      attributes @target and @cRef may be supplied on <name/>.</report>
-    </rule>
-  </pattern>
-  <pattern id="schematron-constraint-primarysourcecoop_rev1-ref-refAtts-14">
-    <rule context="tei:ref">
-      <report test="@target and @cRef">Only one of the
-      attributes @target' and @cRef' may be supplied on <name/>
-      </report>
-    </rule>
-  </pattern>
-  <pattern id="schematron-constraint-primarysourcecoop_rev1-list-gloss-list-must-have-labels-15">
-    <rule context="tei:list[@type='gloss']">
-      <assert test="tei:label">The content of a "gloss" list should include a sequence of one or more pairs of a label element followed by an item element</assert>
-    </rule>
-  </pattern>
-  <pattern id="schematron-constraint-primarysourcecoop_rev1-respStmt-note-in-respStmt-16">
-    <rule context="tei:respStmt">
-      <assert test="tei:note">A responsibility statement needs a child note element</assert>
-    </rule>
-    <rule context="tei:respStmt/tei:note">
-      <assert test="tei:date">The date of a responsibility statement should be indicated by a 'date' in the 'note'</assert>
-    </rule>
-    <rule context="tei:respStmt/tei:note/tei:date">
-      <assert test="@type eq 'transcription'">The date inside the note of a responsibility statement should be categorized with @type (as a transcriptional note, i.e. type="transcription")</assert>
-      <assert test="@when">The date inside the note of a responsibility statement must have a machine readable date (on @when)</assert>
-      <assert test="normalize-space(.) eq ''">The date inside the note of a responsibility statement should be empty</assert>
-    </rule>
-  </pattern>
-  <pattern id="schematron-constraint-primarysourcecoop_rev1-l-abstractModel-structure-l-17">
-    <rule context="tei:l">
-      <report test="ancestor::tei:l[not(.//tei:note//tei:l[. = current()])]">
+      </rule>
+   </pattern>
+   <pattern>
+      <rule context="tei:application                                   |tei:date[not(@prev|@calendar)]                                   |tei:time[not(@prev|@calendar)]">
+         <assert test="@when or @when-custom or @when-iso or                                     @notBefore or @notBefore-custom or @notBefore-iso or                                     @notAfter or @notAfter-iso or @notAfter-custom or                                     @from or @from-custom or @from-iso or                                     @to or @to-custom or @to-iso">At least one temporal normalization attribute should be specified on a &lt;<value-of select="name(.)"/>&gt;.</assert>
+      </rule>
+   </pattern>
+   <pattern id="schematron-constraint-primarysourcecoop_rev1-date-source_date_content-12">
+      <rule context="tei:sourceDesc/tei:bibl/tei:date">
+         <assert test="matches( normalize-space(.), '^(([0-9]{1,2} )?[A-Z][a-z]+ )?[0-9]+$' )">
+                  The source date should contain a human-readable date in the form “DD Mon YYYY”
+                </assert>
+      </rule>
+   </pattern>
+   <pattern id="schematron-constraint-primarysourcecoop_rev1-ptr-ptrAtts-13">
+      <rule context="tei:ptr">
+         <report test="@target and @cRef">Only one of the
+attributes @target and @cRef may be supplied on <name/>.</report>
+      </rule>
+   </pattern>
+   <pattern id="schematron-constraint-primarysourcecoop_rev1-ref-refAtts-14">
+      <rule context="tei:ref">
+         <report test="@target and @cRef">Only one of the
+	attributes @target' and @cRef' may be supplied on <name/>
+         </report>
+      </rule>
+   </pattern>
+   <pattern id="schematron-constraint-primarysourcecoop_rev1-list-gloss-list-must-have-labels-15">
+      <rule context="tei:list[@type='gloss']">
+         <assert test="tei:label">The content of a "gloss" list should include a sequence of one or more pairs of a label element followed by an item element</assert>
+      </rule>
+   </pattern>
+   <pattern id="schematron-constraint-primarysourcecoop_rev1-respStmt-note-in-respStmt-16">
+      <rule context="tei:respStmt">
+         <assert test="tei:note">A responsibility statement needs a child &lt;note&gt; element</assert>
+      </rule>
+      <rule context="tei:respStmt/tei:note">
+         <assert test="tei:date">The date of a responsibility statement should be indicated by a &lt;date&gt; in the &lt;note&gt;</assert>
+      </rule>
+      <rule context="tei:respStmt/tei:note/tei:date">
+         <assert test="@type eq 'transcription'">The &lt;date&gt; inside the &lt;note&gt; of a &lt;respStmt&gt; should be categorized with @type (as a transcriptional note, i.e. type="transcription")</assert>
+         <assert test="@when">The &lt;date&gt; inside the &lt;note&gt; of a &lt;respStmt&gt; must have a machine readable date (on @when)</assert>
+         <assert test="normalize-space(.) eq ''">The &lt;date&gt; inside the &lt;note&gt; of a &lt;respStmt&gt; should be empty</assert>
+      </rule>
+   </pattern>
+   <pattern id="schematron-constraint-primarysourcecoop_rev1-l-abstractModel-structure-l-17">
+      <rule context="tei:l">
+         <report test="ancestor::tei:l[not(.//tei:note//tei:l[. = current()])]">
         Abstract model violation: Lines may not contain lines or lg elements.
       </report>
-    </rule>
-  </pattern>
-  <pattern id="schematron-constraint-primarysourcecoop_rev1-lg-atleast1oflggapl-18">
-    <rule context="tei:lg">
-      <assert test="count(descendant::tei:lg|descendant::tei:l|descendant::tei:gap) &gt; 0">An lg element
-      must contain at least one child l, lg, or gap element.</assert>
-    </rule>
-  </pattern>
-  <pattern id="schematron-constraint-primarysourcecoop_rev1-lg-abstractModel-structure-l-19">
-    <rule context="tei:lg">
-      <report test="ancestor::tei:l[not(.//tei:note//tei:lg[. = current()])]">
+      </rule>
+   </pattern>
+   <pattern id="schematron-constraint-primarysourcecoop_rev1-lg-atleast1oflggapl-18">
+      <rule context="tei:lg">
+         <assert test="count(descendant::tei:lg|descendant::tei:l|descendant::tei:gap) &gt; 0">An lg element
+        must contain at least one child l, lg, or gap element.</assert>
+      </rule>
+   </pattern>
+   <pattern id="schematron-constraint-primarysourcecoop_rev1-lg-abstractModel-structure-l-19">
+      <rule context="tei:lg">
+         <report test="ancestor::tei:l[not(.//tei:note//tei:lg[. = current()])]">
         Abstract model violation: Lines may not contain line groups.
       </report>
-    </rule>
-  </pattern>
-  <pattern id="schematron-constraint-primarysourcecoop_rev1-teiHeader-require-encodingDesc-20">
-    <rule context="tei:teiHeader">
-      <assert test="tei:encodingDesc">An encoding description (element "encodingDesc") is required in the TEI Header.</assert>
-    </rule>
-  </pattern>
-  <pattern id="schematron-constraint-primarysourcecoop_rev1-publicationStmt-publication_date-21">
-    <rule context="tei:publicationStmt/tei:date">
-      <let name="date" value="normalize-space(.)"/>
-      <let name="year"
-           value="if ( matches( $date, '^[0-9]+$' ) )        then $date cast as xs:integer        else        if ( contains( $date, '-' ) )          then substring-before( $date, '-') cast as xs:integer          else 0"/>
-      <let name="next" value="$year + 1"/>
-      <assert test="   $date castable as xs:gYear          or $date castable as xs:gYearMonth          or $date castable as xs:date">The publication date should be a year in YYYY format, a year and month in YYYY-MM format, or a date in YYYY-MM-DD format.</assert>
-      <assert test="matches( $date, '^2[0-9][0-9][0-9](-[01][0-9](-[0-3])?)?')">The date of publication should be in the 21st century</assert>
-      <report test="$next ge year-from-date( current-date() )">The date of publication should not be in the future (at least, not past next year)</report>
-    </rule>
-  </pattern>
-  <pattern id="schematron-constraint-primarysourcecoop_rev1-quotation-quotationContents-22">
-    <rule context="tei:quotation">
-      <report test="not(@marks) and not (tei:p)">
-      On <name/>, either the @marks attribute should be used, or a paragraph of description provided</report>
-    </rule>
-  </pattern>
-  <pattern id="schematron-constraint-primarysourcecoop_rev1-citeStructure-delim-citestructure-inner-delim-23">
-    <rule context="tei:citeStructure[parent::tei:citeStructure]">
-      <assert test="@delim">A <name/> with a parent <name/> must have a @delim attribute.</assert>
-    </rule>
-  </pattern>
-  <pattern id="schematron-constraint-primarysourcecoop_rev1-citeStructure-match-citestructure-outer-match-24">
-    <rule context="tei:citeStructure[not(parent::tei:citeStructure)]">
-      <assert test="starts-with(@match,'/')">An XPath in @match on the outer <name/> must start with '/'.</assert>
-    </rule>
-  </pattern>
-  <pattern id="schematron-constraint-primarysourcecoop_rev1-citeStructure-match-citestructure-inner-match-25">
-    <rule context="tei:citeStructure[parent::tei:citeStructure]">
-      <assert test="not(starts-with(@match,'/'))">An XPath in @match must not start with '/' except on the outer <name/>.</assert>
-    </rule>
-  </pattern>
-  <pattern id="schematron-constraint-primarysourcecoop_rev1-body-require-docback-28">
-    <rule context="tei:body">
-      <assert test="tei:div[@type eq 'docback']">A div with type attribute "docback" is required.</assert>
-    </rule>
-  </pattern>
-  <pattern id="schematron-constraint-primarysourcecoop_rev1-div-abstractModel-structure-l-29">
-    <rule context="tei:div">
-      <report test="ancestor::tei:l">
+      </rule>
+   </pattern>
+   <pattern id="schematron-constraint-primarysourcecoop_rev1-teiHeader-require-encodingDesc-20">
+      <rule context="tei:teiHeader">
+         <assert test="tei:encodingDesc">An encoding description (element "encodingDesc") is required in the TEI Header.</assert>
+      </rule>
+   </pattern>
+   <pattern id="schematron-constraint-primarysourcecoop_rev1-publicationStmt-publication_date-21">
+      <rule context="tei:publicationStmt/tei:date">
+         <let name="date" value="normalize-space(.)"/>
+         <let name="year"
+              value="if ( matches( $date, '^[0-9]+$' ) )                                           then $date cast as xs:integer                                           else                                           if ( contains( $date, '-' ) )                                             then substring-before( $date, '-') cast as xs:integer                                             else 0"/>
+         <let name="next" value="$year + 1"/>
+         <assert test="$date castable as xs:gYear                                or $date castable as xs:gYearMonth                                or $date castable as xs:date">The publication date should be a year in YYYY format, a year and month in YYYY-MM format, or a date in YYYY-MM-DD format.</assert>
+         <assert test="matches( $date, '^20[0-9][0-9](-[01][0-9](-[0-3])?)?')">The date of publication should be in the 21st century</assert>
+         <report test="$next ge year-from-date( current-date() )">The date of publication should not be in the future (at least, not past next year)</report>
+      </rule>
+   </pattern>
+   <pattern id="schematron-constraint-primarysourcecoop_rev1-quotation-quotationContents-22">
+      <rule context="tei:quotation">
+         <report test="not(@marks) and not (tei:p)">
+On <name/>, either the @marks attribute should be used, or a paragraph of description provided</report>
+      </rule>
+   </pattern>
+   <pattern id="schematron-constraint-primarysourcecoop_rev1-citeStructure-delim-citestructure-inner-delim-23">
+      <rule context="tei:citeStructure[parent::tei:citeStructure]">
+         <assert test="@delim">A <name/> with a parent <name/> must have a @delim attribute.</assert>
+      </rule>
+   </pattern>
+   <pattern id="schematron-constraint-primarysourcecoop_rev1-citeStructure-match-citestructure-outer-match-24">
+      <rule context="tei:citeStructure[not(parent::tei:citeStructure)]">
+         <assert test="starts-with(@match,'/')">An XPath in @match on the outer <name/> must start with '/'.</assert>
+      </rule>
+   </pattern>
+   <pattern id="schematron-constraint-primarysourcecoop_rev1-citeStructure-match-citestructure-inner-match-25">
+      <rule context="tei:citeStructure[parent::tei:citeStructure]">
+         <assert test="not(starts-with(@match,'/'))">An XPath in @match must not start with '/' except on the outer <name/>.</assert>
+      </rule>
+   </pattern>
+   <pattern id="schematron-constraint-primarysourcecoop_rev1-body-require-docback-28">
+      <rule context="tei:body">
+         <assert test="tei:div[@type eq 'docback']">A div with type attribute "docback" is required.</assert>
+      </rule>
+   </pattern>
+   <pattern id="schematron-constraint-primarysourcecoop_rev1-div-abstractModel-structure-l-29">
+      <rule context="tei:div">
+         <report test="ancestor::tei:l">
         Abstract model violation: Lines may not contain higher-level structural elements such as div.
       </report>
-    </rule>
-  </pattern>
-  <pattern id="schematron-constraint-primarysourcecoop_rev1-div-abstractModel-structure-p-30">
-    <rule context="tei:div">
-      <report test="ancestor::tei:p or ancestor::tei:ab and not(ancestor::tei:floatingText)">
+      </rule>
+   </pattern>
+   <pattern id="schematron-constraint-primarysourcecoop_rev1-div-abstractModel-structure-p-30">
+      <rule context="tei:div">
+         <report test="ancestor::tei:p or ancestor::tei:ab and not(ancestor::tei:floatingText)">
         Abstract model violation: p and ab may not contain higher-level structural elements such as div.
       </report>
-    </rule>
-  </pattern>
-  <pattern id="schematron-constraint-primarysourcecoop_rev1-msIdentifier-msId_minimal-31">
-    <rule context="tei:msIdentifier">
-      <report test="not(parent::tei:msPart) and (local-name(*[1])='idno' or local-name(*[1])='altIdentifier' or normalize-space(.)='')">An msIdentifier must contain either a repository or location.</report>
-    </rule>
-  </pattern>
+      </rule>
+   </pattern>
+   <pattern id="schematron-constraint-primarysourcecoop_rev1-msIdentifier-msId_minimal-31">
+      <rule context="tei:msIdentifier">
+         <report test="not(parent::tei:msPart) and (local-name(*[1])='idno' or local-name(*[1])='altIdentifier' or normalize-space(.)='')">An msIdentifier must contain either a repository or location.</report>
+      </rule>
+   </pattern>
 </schema>

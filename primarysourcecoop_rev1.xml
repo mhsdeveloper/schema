@@ -27,22 +27,23 @@
       </sourceDesc>
     </fileDesc>
     <revisionDesc>
+      <change who="#sb" when="2021-05-19">With #lj, tweak some of the Schematron I added yesterday</change>
       <change who="#sb" when="2021-05-18">
-	<list>
-	  <item>Added the WWP’s datingAttr constraint. This may not be
-	  appropriate, as it requires <emph>all</emph> instances of
-	  <gi>date</gi> to have a <att>when</att> (or whatever),
-	  including the one in <gi>bibl</gi> in <gi>sourceDesc</gi>,
-	  which I think the MHSers do not want.</item>
-	  <item>Added source_date_content constraint, which may need
-	  to be tweaked.</item>
-	</list>
+        <list>
+          <item>Added the WWP’s datingAttr constraint. This may not be
+          appropriate, as it requires <emph>all</emph> instances of
+          <gi>date</gi> to have a <att>when</att> (or whatever),
+          including the one in <gi>bibl</gi> in <gi>sourceDesc</gi>,
+          which I think the MHSers do not want.</item>
+          <item>Added source_date_content constraint, which may need
+          to be tweaked.</item>
+        </list>
       </change>
       <change who="#sb" when="2021-05-17">
-	<list>
-	  <item>added note-in-respStmt constraint</item>
-	  <item>added publication_date constraint</item>
-	</list>
+        <list>
+          <item>added note-in-respStmt constraint</item>
+          <item>added publication_date constraint</item>
+        </list>
       </change>
       <change who="#lj" when="2021-05-10">Added <name>require-encodingDesc</name> and <name>require-docback</name> constraints.</change>
       <change who="#lj" when="2021-05-04">Added a content model for <gi>respStmt</gi>.</change>
@@ -81,7 +82,7 @@
         <moduleRef key="core" include="abbr add author bibl cb date del editor expan gap head hi item l label lb lg list name note orig p pb ptr ref reg resp respStmt title unclear sourceDesc textClass keywords list"/>
         <elementSpec ident="date" mode="change">
           <constraintSpec scheme="schematron" ident="datingAttr">
-	    <!-- Copied directly from wwp-store 2021-05-18 by Syd -->
+            <!-- Copied directly from wwp-store 2021-05-18 by Syd -->
             <constraint>
               <sch:pattern>
                 <sch:rule context="tei:application
@@ -92,21 +93,21 @@
                                     @notAfter or @notAfter-iso or @notAfter-custom or
                                     @from or @from-custom or @from-iso or
                                     @to or @to-custom or @to-iso"
-                              >At least one temporal normalization attribute should be specified on a ＜<sch:value-of
-                                    select="name(.)"/>＞.</sch:assert>
+                              >At least one temporal normalization attribute should be specified on a &lt;<sch:value-of
+                                    select="name(.)"/>>.</sch:assert>
                 </sch:rule>
               </sch:pattern>
             </constraint>
           </constraintSpec>
-	  <constraintSpec ident="source_date_content" scheme="schematron">
-	    <constraint>
-	      <sch:rule context="tei:sourceDesc/tei:bibl/tei:date">
-		<sch:assert test="matches( normalize-space(.), '^(([0-9]{1,2} )?[A-Z][a-z]+ )?[0-9]+$' )">
-		  The source date should contain a human-readable date in the form “DD Mon YYYY”
-		</sch:assert>
-	      </sch:rule>
-	    </constraint>
-	  </constraintSpec>
+          <constraintSpec ident="source_date_content" scheme="schematron">
+            <constraint>
+              <sch:rule context="tei:sourceDesc/tei:bibl/tei:date">
+                <sch:assert test="matches( normalize-space(.), '^(([0-9]{1,2} )?[A-Z][a-z]+ )?[0-9]+$' )">
+                  The source date should contain a human-readable date in the form “DD Mon YYYY”
+                </sch:assert>
+              </sch:rule>
+            </constraint>
+          </constraintSpec>
           <attList>
             <attDef ident="type" mode="change">
               <valList mode="add" type="closed">
@@ -185,47 +186,47 @@
             </sequence>
           </content>
         </elementSpec>        
-	<elementSpec ident="respStmt" mode="change">
-	  <constraintSpec ident="note-in-respStmt" scheme="schematron">
-	    <constraint>
-	      <sch:rule context="tei:respStmt">
-		<sch:assert test="tei:note">A responsibility statement needs a child note element</sch:assert>
-	      </sch:rule>
-	      <sch:rule context="tei:respStmt/tei:note">
-		<sch:assert test="tei:date">The date of a responsibility statement should be indicated by a 'date' in the 'note'</sch:assert>
-	      </sch:rule>
-	      <sch:rule context="tei:respStmt/tei:note/tei:date">
-		<sch:assert test="@type eq 'transcription'">The date inside the note of a responsibility statement should be categorized with @type (as a transcriptional note, i.e. type="transcription")</sch:assert>
-		<sch:assert test="@when">The date inside the note of a responsibility statement must have a machine readable date (on @when)</sch:assert>
-		<sch:assert test="normalize-space(.) eq ''">The date inside the note of a responsibility statement should be empty</sch:assert>
-	      </sch:rule>
-	    </constraint>
-	  </constraintSpec>
-	</elementSpec>
-	<elementSpec ident="publicationStmt" mode="change">
-	  <constraintSpec ident="publication_date" scheme="schematron">
-	    <desc><gi>date</gi> child of <gi>publicationStmt</gi>
-	    should be constrained by Schematron to 21st century before
-	    next year.</desc>
-	    <constraint>
-	      <sch:rule context="tei:publicationStmt/tei:date">
-		<sch:let name="date" value="normalize-space(.)"/>
-		<sch:let name="year" value="if ( matches( $date, '^[0-9]+$' ) )
-					  then $date cast as xs:integer
-					  else
-					  if ( contains( $date, '-' ) )
-					    then substring-before( $date, '-') cast as xs:integer
-					    else 0"/>
-		<sch:let name="next" value="$year + 1"/>
-		<sch:assert test="   $date castable as xs:gYear
-			      or $date castable as xs:gYearMonth
-			      or $date castable as xs:date">The publication date should be a year in YYYY format, a year and month in YYYY-MM format, or a date in YYYY-MM-DD format.</sch:assert>
-		<sch:assert test="matches( $date, '^2[0-9][0-9][0-9](-[01][0-9](-[0-3])?)?')">The date of publication should be in the 21st century</sch:assert>
-		<sch:report test="$next ge year-from-date( current-date() )">The date of publication should not be in the future (at least, not past next year)</sch:report>
-	      </sch:rule>
-	    </constraint>
-	  </constraintSpec>
-	</elementSpec>
+        <elementSpec ident="respStmt" mode="change">
+          <constraintSpec ident="note-in-respStmt" scheme="schematron">
+            <constraint>
+              <sch:rule context="tei:respStmt">
+                <sch:assert test="tei:note">A responsibility statement needs a child &lt;note> element</sch:assert>
+              </sch:rule>
+              <sch:rule context="tei:respStmt/tei:note">
+                <sch:assert test="tei:date">The date of a responsibility statement should be indicated by a &lt;date> in the &lt;note></sch:assert>
+              </sch:rule>
+              <sch:rule context="tei:respStmt/tei:note/tei:date">
+                <sch:assert test="@type eq 'transcription'">The &lt;date> inside the &lt;note> of a &lt;respStmt> should be categorized with @type (as a transcriptional note, i.e. type="transcription")</sch:assert>
+                <sch:assert test="@when">The &lt;date> inside the &lt;note> of a &lt;respStmt> must have a machine readable date (on @when)</sch:assert>
+                <sch:assert test="normalize-space(.) eq ''">The &lt;date> inside the &lt;note> of a &lt;respStmt> should be empty</sch:assert>
+              </sch:rule>
+            </constraint>
+          </constraintSpec>
+        </elementSpec>
+        <elementSpec ident="publicationStmt" mode="change">
+          <constraintSpec ident="publication_date" scheme="schematron">
+            <desc><gi>date</gi> child of <gi>publicationStmt</gi>
+            should be constrained by Schematron to 21st century before
+            next year.</desc>
+            <constraint>
+              <sch:rule context="tei:publicationStmt/tei:date">
+                <sch:let name="date" value="normalize-space(.)"/>
+                <sch:let name="year" value="if ( matches( $date, '^[0-9]+$' ) )
+                                          then $date cast as xs:integer
+                                          else
+                                          if ( contains( $date, '-' ) )
+                                            then substring-before( $date, '-') cast as xs:integer
+                                            else 0"/>
+                <sch:let name="next" value="$year + 1"/>
+                <sch:assert test="$date castable as xs:gYear
+                               or $date castable as xs:gYearMonth
+                               or $date castable as xs:date">The publication date should be a year in YYYY format, a year and month in YYYY-MM format, or a date in YYYY-MM-DD format.</sch:assert>
+                <sch:assert test="matches( $date, '^20[0-9][0-9](-[01][0-9](-[0-3])?)?')">The date of publication should be in the 21st century</sch:assert>
+                <sch:report test="$next ge year-from-date( current-date() )">The date of publication should not be in the future (at least, not past next year)</sch:report>
+              </sch:rule>
+            </constraint>
+          </constraintSpec>
+        </elementSpec>
         
         <!-- namesdates module -->
         <!-- verse module -->
