@@ -27,6 +27,35 @@
       </sourceDesc>
     </fileDesc>
     <revisionDesc>
+      <change who="#sb" when="2021-05-27">
+        <list>
+          <item>Continued work on the docbody-insertion-docback structure</item>
+          <item>Removed a (superfluous?) specification for
+          <gi>date</gi> that defined 2 <soCalled>new</soCalled> attributes, <att>from-custom</att>
+          and <att>to-custom</att> to be W3C date.</item>
+          <item>Removed extraneous specification for <gi>head</gi>
+          (probably there because I did not realize there already was
+          one, and added one)</item>
+        </list>
+      </change>
+      <change who="#sb" when="2021-05-20">
+        <list>
+          <item>Per conversation with #lj, created structure for
+          validation of the content of <gi>body</gi> as different
+          types of <gi>div</gi>. In particular, established three new
+          specifications for <name>docbody</name>,
+          <name>insertion</name>, and <name>docback</name>, giving
+          each the alternate identifier <gi>div</gi> and a required
+          <att>type</att> with a value that matches the name of the
+          specified construct (i.e., <val>docbody</val>,
+          <val>insertion</val>, and <val>docback</val>). Also removed
+          those values from the standard defintion of
+          <gi>div</gi>.</item>
+          <item>Tightened regexp in <name>datingAttr</name>
+          constraint, and no longer apply that constraint to
+          <gi>time</gi>, as MHS Coop does not use <gi>time</gi>.</item>
+        </list>
+      </change>
       <change who="#sb" when="2021-05-19">With #lj, tweak some of the Schematron I added yesterday</change>
       <change who="#sb" when="2021-05-18">
         <list>
@@ -78,16 +107,13 @@
         <desc>Schema intended to support at least jqa/ &amp; correspondence/</desc>
         <moduleRef key="tei"/>
 
-        <!-- core module -->
+        <!-- ========= core module ========= -->
         <moduleRef key="core" include="abbr add author bibl cb date del editor expan gap head hi item l label lb lg list name note orig p pb ptr ref reg resp respStmt title unclear sourceDesc textClass keywords list"/>
         <elementSpec ident="date" mode="change">
           <constraintSpec scheme="schematron" ident="datingAttr">
-            <!-- Copied directly from wwp-store 2021-05-18 by Syd -->
             <constraint>
               <sch:pattern>
-                <sch:rule context="tei:application
-                                  |tei:date[not(@prev|@calendar)]
-                                  |tei:time[not(@prev|@calendar)]">
+                <sch:rule context="tei:application | tei:date[ not( @prev | @calendar ) ]">
                   <sch:assert test="@when or @when-custom or @when-iso or
                                     @notBefore or @notBefore-custom or @notBefore-iso or
                                     @notAfter or @notAfter-iso or @notAfter-custom or
@@ -102,7 +128,7 @@
           <constraintSpec ident="source_date_content" scheme="schematron">
             <constraint>
               <sch:rule context="tei:sourceDesc/tei:bibl/tei:date">
-                <sch:assert test="matches( normalize-space(.), '^(([0-9]{1,2} )?[A-Z][a-z]+ )?[0-9]+$' )">
+                <sch:assert test="matches( normalize-space(.), '^(([0-9]{1,2} )?[A-Z][a-z]+[a-z]+ )?[0-9]{2}[0-9]{2}?$' )">
                   The source date should contain a human-readable date in the form “DD Mon YYYY”
                 </sch:assert>
               </sch:rule>
@@ -120,11 +146,6 @@
         <elementSpec ident="list" mode="change">
           <attList>
             <attDef ident="type" mode="delete"/>
-            <attDef ident="type" mode="delete"/>
-          </attList>
-        </elementSpec>
-        <elementSpec ident="head" mode="change" ns="">
-          <attList>
             <attDef ident="type" mode="delete"/>
           </attList>
         </elementSpec>
@@ -162,7 +183,7 @@
           </content>
         </elementSpec>
         
-        <!-- header module -->
+        <!-- ========= header module ========= -->
         <moduleRef key="header"/>
         <elementSpec ident="teiHeader" mode="change">
           <constraintSpec ident="require-encodingDesc" scheme="schematron">
@@ -227,14 +248,20 @@
             </constraint>
           </constraintSpec>
         </elementSpec>
+        <elementSpec ident="change" module="header" mode="change">
+          <attList>
+            <attDef ident="who" usage="req" mode="change"/>
+            <attDef ident="when" usage="req" mode="change"/>
+          </attList>
+        </elementSpec>
         
-        <!-- namesdates module -->
-        <!-- verse module -->
-        <!-- transcr module -->
+        <!-- ========= namesdates module ========= -->
+        <!-- ========= verse module ========= -->
+        <!-- ========= transcr module ========= -->
         <moduleRef key="transcr" include="space supplied"/>
-        <!-- linking module -->
-        <!-- analysis module -->
-        <!-- textstructure module -->
+        <!-- ========= linking module ========= -->
+        <!-- ========= analysis module ========= -->
+        <!-- ========= textstructure module ========= -->
         <moduleRef key="textstructure"
           include="TEI text front body back div salute signed dateline opener closer postscript"/>
         <elementSpec ident="TEI" mode="change">
@@ -247,23 +274,69 @@
             </attDef>
           </attList>
         </elementSpec>
-        
+
+        <!-- 
+             The <body> is limited to very precise content:
+             - 1   <div type="docbody">
+             - 0+  <div type="insertion">
+             - 1   <div type="docback">
+        -->
         <elementSpec ident="body" mode="change" module="textstructure">
-          <constraintSpec ident="require-docback" scheme="schematron">
-            <constraint>
-              <sch:assert test="tei:div[@type eq 'docback']">A div with type attribute "docback" is required.</sch:assert>
-            </constraint>
-          </constraintSpec>
+          <content>
+            <sequence>
+              <elementRef key="docbody" minOccurs="1" maxOccurs="1"/>
+              <elementRef key="insertion" minOccurs="0" maxOccurs="unbounded"/>
+              <elementRef key="docback" minOccurs="1" maxOccurs="1"/>
+            </sequence>
+          </content>
         </elementSpec>
-        
+
+        <!-- the 3 main <div>s (i.e., the children of <body>): -->
+        <elementSpec ident="docbody" mode="add">
+          <altIdent>div</altIdent>
+          <content>
+            <macroRef key="macro.docbody"/>
+          </content>
+          <attList>
+            <attDef ident="type">
+              <valList mode="add" type="closed">
+                <valItem ident="docbody"/>
+              </valList>
+            </attDef>
+          </attList>
+        </elementSpec>
+        <elementSpec ident="insertion" mode="add">
+          <altIdent>div</altIdent>
+          <content>
+            <elementRef key="p" minOccurs="2" maxOccurs="12"/>
+          </content>
+          <attList>
+            <attDef ident="type">
+              <valList mode="add" type="closed">
+                <valItem ident="insertion"/>
+              </valList>
+            </attDef>
+          </attList>
+        </elementSpec>
+        <elementSpec ident="docback" mode="add">
+          <altIdent>div</altIdent>
+          <content>
+            <elementRef key="sourceNote" minOccurs="1" maxOccurs="2"/>
+          </content>
+          <attList>
+            <attDef ident="type">
+              <valList mode="add" type="closed">
+                <valItem ident="docback"/>
+              </valList>
+            </attDef>
+          </attList>
+        </elementSpec>
+        <!-- all other <div>s: -->
         <elementSpec ident="div" mode="change">
           <attList>
             <attDef ident="type" mode="change">
               <valList mode="add" type="closed">
                 <valItem ident="doc"/>
-                <valItem ident="docbody"/>
-                <valItem ident="docback"/>
-                <valItem ident="insertion"/>
                 <valItem ident="entry"/>
                 <valItem ident="month"/>
               </valList>
@@ -280,21 +353,52 @@
             </attDef>
           </attList>
         </elementSpec>
-        <elementSpec ident="date" mode="change">
+        <!-- Subsnippets -->
+        <elementSpec ident="sourceNote" mode="add">
+          <altIdent>note</altIdent>
+          <content>
+            <alternate>
+              <elementRef key="p" minOccurs="1" maxOccurs="10"/>
+              <elementRef key="note" minOccurs="1" maxOccurs="20"/>
+            </alternate>
+          </content>
           <attList>
-            <attDef ident="from-custom" mode="add">
-              <datatype>
-                <dataRef key="teidata.temporal.w3c"/>
-              </datatype>
-            </attDef>
-            <attDef ident="to-custom" mode="add">
-              <datatype>
-                <dataRef key="teidata.temporal.w3c"/>
-              </datatype>
+            <attDef ident="type">
+              <valList mode="add" type="closed">
+                <valItem ident="source"/>
+              </valList>
             </attDef>
           </attList>
         </elementSpec>
-        <!-- figures module -->
+        <macroSpec ident="macro.docbody">
+          <content>
+            <!-- ( head?, opener, ( p | lg | l | gap )+, closer?, postscript* ) -->
+            <elementRef key="head"       minOccurs="0" maxOccurs="1"/>
+            <classRef key="model.global" minOccurs="0" maxOccurs="unbounded"/>
+            <elementRef key="opener"     minOccurs="1" maxOccurs="1"/>
+            <classRef key="model.global" minOccurs="0" maxOccurs="unbounded"/>
+            <alternate minOccurs="1" maxOccurs="unbounded">
+              <elementRef key="p"/>
+              <elementRef key="lg"/>
+              <elementRef key="l"/>
+              <elementRef key="gap"/>
+            </alternate>
+            <alternate minOccurs="0" maxOccurs="unbounded">
+              <elementRef key="p"/>
+              <elementRef key="lg"/>
+              <elementRef key="l"/>
+              <elementRef key="gap"/>
+              <classRef key="model.global"/>
+            </alternate>
+            <elementRef key="closer" minOccurs="0" maxOccurs="1"/>
+            <classRef key="model.global" minOccurs="0" maxOccurs="unbounded"/>
+            <sequence minOccurs="0" maxOccurs="unbounded">
+              <elementRef key="postscript" minOccurs="1" maxOccurs="unbounded"/>
+              <classRef key="model.global" minOccurs="0" maxOccurs="unbounded"/>
+            </sequence>
+          </content>
+        </macroSpec>
+        <!-- ========= figures module ========= -->
         <moduleRef key="figures" include="table row cell"/>
         <elementSpec ident="table" mode="change">
           <attList>
@@ -344,7 +448,7 @@
             <rng:ref xmlns:rng="http://relaxng.org/ns/structure/1.0" name="macro.phraseSeq"/>
           </content>
         </elementSpec>
-        <elementSpec ident="head" module="core" mode="replace">
+        <elementSpec ident="head" module="core" mode="change">
           <classes mode="replace">
             <memberOf key="model.headLike"/>
             <memberOf key="model.pLike"/>
@@ -358,7 +462,7 @@
             <memberOf key="att.global"/>
           </classes>
         </elementSpec>
-        <!-- msdescription module -->
+        <!-- ========= msdescription module ========= -->
         <moduleRef key="msdescription"
           except="accMat acquisition additional additions adminInfo altIdentifier binding bindingDesc catchwords collation colophon condition custEvent custodialHist decoDesc decoNote depth dim dimensions explicit filiation finalRubric foliation handDesc height heraldry history incipit layout layoutDesc locus locusGrp msFrag msItemStruct musicNotation objectDesc objectType origDate origPlace origin provenance recordHist rubric scriptDesc seal sealDesc secFol signatures source stamp summary support supportDesc surrogates typeDesc typeNote watermark width"
         />

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <schema xmlns="http://purl.oclc.org/dsdl/schematron" queryBinding="xslt2">
    <title>ISO Schematron rules</title>
-   <!-- This file generated 2021-05-19T18:43:18Z by 'extract-isosch.xsl'. -->
+   <!-- This file generated 2021-05-27T14:53:26Z by 'extract-isosch.xsl'. -->
    <!-- ********************* -->
    <!-- namespaces, declared: -->
    <!-- ********************* -->
@@ -76,13 +76,13 @@ The element indicated by @spanTo (<value-of select="@spanTo"/>) must follow the 
       </rule>
    </pattern>
    <pattern>
-      <rule context="tei:application                                   |tei:date[not(@prev|@calendar)]                                   |tei:time[not(@prev|@calendar)]">
+      <rule context="tei:application | tei:date[ not( @prev | @calendar ) ]">
          <assert test="@when or @when-custom or @when-iso or                                     @notBefore or @notBefore-custom or @notBefore-iso or                                     @notAfter or @notAfter-iso or @notAfter-custom or                                     @from or @from-custom or @from-iso or                                     @to or @to-custom or @to-iso">At least one temporal normalization attribute should be specified on a &lt;<value-of select="name(.)"/>&gt;.</assert>
       </rule>
    </pattern>
    <pattern id="schematron-constraint-primarysourcecoop_rev1-date-source_date_content-12">
       <rule context="tei:sourceDesc/tei:bibl/tei:date">
-         <assert test="matches( normalize-space(.), '^(([0-9]{1,2} )?[A-Z][a-z]+ )?[0-9]+$' )">
+         <assert test="matches( normalize-space(.), '^(([0-9]{1,2} )?[A-Z][a-z]+[a-z]+ )?[0-9]{2}[0-9]{2}?$' )">
                   The source date should contain a human-readable date in the form “DD Mon YYYY”
                 </assert>
       </rule>
@@ -175,26 +175,21 @@ On <name/>, either the @marks attribute should be used, or a paragraph of descri
          <assert test="not(starts-with(@match,'/'))">An XPath in @match must not start with '/' except on the outer <name/>.</assert>
       </rule>
    </pattern>
-   <pattern id="schematron-constraint-primarysourcecoop_rev1-body-require-docback-28">
-      <rule context="tei:body">
-         <assert test="tei:div[@type eq 'docback']">A div with type attribute "docback" is required.</assert>
-      </rule>
-   </pattern>
-   <pattern id="schematron-constraint-primarysourcecoop_rev1-div-abstractModel-structure-l-29">
+   <pattern id="schematron-constraint-primarysourcecoop_rev1-div-abstractModel-structure-l-28">
       <rule context="tei:div">
          <report test="ancestor::tei:l">
         Abstract model violation: Lines may not contain higher-level structural elements such as div.
       </report>
       </rule>
    </pattern>
-   <pattern id="schematron-constraint-primarysourcecoop_rev1-div-abstractModel-structure-p-30">
+   <pattern id="schematron-constraint-primarysourcecoop_rev1-div-abstractModel-structure-p-29">
       <rule context="tei:div">
          <report test="ancestor::tei:p or ancestor::tei:ab and not(ancestor::tei:floatingText)">
         Abstract model violation: p and ab may not contain higher-level structural elements such as div.
       </report>
       </rule>
    </pattern>
-   <pattern id="schematron-constraint-primarysourcecoop_rev1-msIdentifier-msId_minimal-31">
+   <pattern id="schematron-constraint-primarysourcecoop_rev1-msIdentifier-msId_minimal-30">
       <rule context="tei:msIdentifier">
          <report test="not(parent::tei:msPart) and (local-name(*[1])='idno' or local-name(*[1])='altIdentifier' or normalize-space(.)='')">An msIdentifier must contain either a repository or location.</report>
       </rule>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <grammar xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:teix="http://www.tei-c.org/ns/Examples" xmlns="http://relaxng.org/ns/structure/1.0" datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes" ns="http://www.tei-c.org/ns/1.0">
   <!--
-Schema generated from ODD source 2021-05-19T18:43:16Z. .
+Schema generated from ODD source 2021-05-27T14:53:24Z. .
 TEI Edition: Version 4.3.0a. Last updated on
         11th May 2021, revision 00f04903d
 TEI Edition Location: https://www.tei-c.org/Vault/P5/Version 4.3.0a./
@@ -63,6 +63,51 @@ TEI Edition Location: https://www.tei-c.org/Vault/P5/Version 4.3.0a./
       </choice>
     </zeroOrMore>
   </define>
+  <define name="primarysourcecoop_rev1_macro.docbody">
+    <optional>
+      <ref name="primarysourcecoop_rev1_head"/>
+    </optional>
+    <zeroOrMore>
+      <ref name="primarysourcecoop_rev1_model.global"/>
+    </zeroOrMore>
+    <ref name="primarysourcecoop_rev1_opener"/>
+    <zeroOrMore>
+      <ref name="primarysourcecoop_rev1_model.global"/>
+    </zeroOrMore>
+    <oneOrMore>
+      <choice>
+        <ref name="primarysourcecoop_rev1_p"/>
+        <ref name="primarysourcecoop_rev1_lg"/>
+        <ref name="primarysourcecoop_rev1_l"/>
+        <ref name="primarysourcecoop_rev1_gap"/>
+      </choice>
+    </oneOrMore>
+    <zeroOrMore>
+      <choice>
+        <ref name="primarysourcecoop_rev1_p"/>
+        <ref name="primarysourcecoop_rev1_lg"/>
+        <ref name="primarysourcecoop_rev1_l"/>
+        <ref name="primarysourcecoop_rev1_gap"/>
+        <ref name="primarysourcecoop_rev1_model.global"/>
+      </choice>
+    </zeroOrMore>
+    <optional>
+      <ref name="primarysourcecoop_rev1_closer"/>
+    </optional>
+    <zeroOrMore>
+      <ref name="primarysourcecoop_rev1_model.global"/>
+    </zeroOrMore>
+    <zeroOrMore>
+      <group>
+        <oneOrMore>
+          <ref name="primarysourcecoop_rev1_postscript"/>
+        </oneOrMore>
+        <zeroOrMore>
+          <ref name="primarysourcecoop_rev1_model.global"/>
+        </zeroOrMore>
+      </group>
+    </zeroOrMore>
+  </define>
   <define name="anyElement-xenoData">
     <element>
       <anyName>
@@ -100,21 +145,6 @@ TEI Edition Location: https://www.tei-c.org/Vault/P5/Version 4.3.0a./
     <optional>
       <attribute name="targetEnd">
         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(target end) points to the end of the span to which the note is attached, if the note is not embedded in the text at that point.</a:documentation>
-        <list>
-          <oneOrMore>
-            <data type="anyURI"/>
-          </oneOrMore>
-        </list>
-      </attribute>
-    </optional>
-  </define>
-  <define name="primarysourcecoop_rev1_att.ascribed.attributes">
-    <ref name="primarysourcecoop_rev1_att.ascribed.attribute.who"/>
-  </define>
-  <define name="primarysourcecoop_rev1_att.ascribed.attribute.who">
-    <optional>
-      <attribute name="who">
-        <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">indicates the person, or group of people, to whom the element content is ascribed.</a:documentation>
         <list>
           <oneOrMore>
             <data type="anyURI"/>
@@ -427,17 +457,17 @@ Sample values include: 1] all; 2] most; 3] range</a:documentation>
     </optional>
   </define>
   <pattern xmlns="http://purl.oclc.org/dsdl/schematron" id="primarysourcecoop_rev1-att.datable.w3c-att-datable-w3c-when-constraint-rule-1">
-    <sch:rule xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:rng="http://relaxng.org/ns/structure/1.0" xmlns="http://www.tei-c.org/ns/1.0" xmlns:mhs="http://www.masshist.org/ns/1.0" xmlns:sch="http://purl.oclc.org/dsdl/schematron" context="tei:*[@when]">
+    <sch:rule xmlns:rng="http://relaxng.org/ns/structure/1.0" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns="http://www.tei-c.org/ns/1.0" xmlns:mhs="http://www.masshist.org/ns/1.0" xmlns:sch="http://purl.oclc.org/dsdl/schematron" context="tei:*[@when]">
       <sch:report test="@notBefore|@notAfter|@from|@to" role="nonfatal">The @when attribute cannot be used with any other att.datable.w3c attributes.</sch:report>
     </sch:rule>
   </pattern>
   <pattern xmlns="http://purl.oclc.org/dsdl/schematron" id="primarysourcecoop_rev1-att.datable.w3c-att-datable-w3c-from-constraint-rule-2">
-    <sch:rule xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:rng="http://relaxng.org/ns/structure/1.0" xmlns="http://www.tei-c.org/ns/1.0" xmlns:mhs="http://www.masshist.org/ns/1.0" xmlns:sch="http://purl.oclc.org/dsdl/schematron" context="tei:*[@from]">
+    <sch:rule xmlns:rng="http://relaxng.org/ns/structure/1.0" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns="http://www.tei-c.org/ns/1.0" xmlns:mhs="http://www.masshist.org/ns/1.0" xmlns:sch="http://purl.oclc.org/dsdl/schematron" context="tei:*[@from]">
       <sch:report test="@notBefore" role="nonfatal">The @from and @notBefore attributes cannot be used together.</sch:report>
     </sch:rule>
   </pattern>
   <pattern xmlns="http://purl.oclc.org/dsdl/schematron" id="primarysourcecoop_rev1-att.datable.w3c-att-datable-w3c-to-constraint-rule-3">
-    <sch:rule xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:rng="http://relaxng.org/ns/structure/1.0" xmlns="http://www.tei-c.org/ns/1.0" xmlns:mhs="http://www.masshist.org/ns/1.0" xmlns:sch="http://purl.oclc.org/dsdl/schematron" context="tei:*[@to]">
+    <sch:rule xmlns:rng="http://relaxng.org/ns/structure/1.0" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns="http://www.tei-c.org/ns/1.0" xmlns:mhs="http://www.masshist.org/ns/1.0" xmlns:sch="http://purl.oclc.org/dsdl/schematron" context="tei:*[@to]">
       <sch:report test="@notAfter" role="nonfatal">The @to and @notAfter attributes cannot be used together.</sch:report>
     </sch:rule>
   </pattern>
@@ -459,7 +489,7 @@ Sample values include: 1] all; 2] most; 3] range</a:documentation>
     </optional>
   </define>
   <pattern xmlns="http://purl.oclc.org/dsdl/schematron" id="primarysourcecoop_rev1-att.datable-calendar-calendar-constraint-rule-4">
-    <sch:rule xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:rng="http://relaxng.org/ns/structure/1.0" xmlns="http://www.tei-c.org/ns/1.0" xmlns:mhs="http://www.masshist.org/ns/1.0" xmlns:sch="http://purl.oclc.org/dsdl/schematron" context="tei:*[@calendar]">
+    <sch:rule xmlns:rng="http://relaxng.org/ns/structure/1.0" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns="http://www.tei-c.org/ns/1.0" xmlns:mhs="http://www.masshist.org/ns/1.0" xmlns:sch="http://purl.oclc.org/dsdl/schematron" context="tei:*[@calendar]">
       <sch:assert test="string-length(.) gt 0"> @calendar indicates one or more systems or calendars to
               which the date represented by the content of this element belongs, but this
               <sch:name/> element has no textual content.</sch:assert>
@@ -976,7 +1006,7 @@ Suggested values include: 1] top; 2] bottom; 3] margin; 4] opposite; 5] overleaf
     </optional>
   </define>
   <pattern xmlns="http://purl.oclc.org/dsdl/schematron" id="primarysourcecoop_rev1-att.typed-subtypeTyped-constraint-rule-5">
-    <sch:rule xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:rng="http://relaxng.org/ns/structure/1.0" xmlns="http://www.tei-c.org/ns/1.0" xmlns:mhs="http://www.masshist.org/ns/1.0" xmlns:sch="http://purl.oclc.org/dsdl/schematron" context="tei:*[@subtype]">
+    <sch:rule xmlns:rng="http://relaxng.org/ns/structure/1.0" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns="http://www.tei-c.org/ns/1.0" xmlns:mhs="http://www.masshist.org/ns/1.0" xmlns:sch="http://purl.oclc.org/dsdl/schematron" context="tei:*[@subtype]">
       <sch:assert test="@type">The <sch:name/> element should not be categorized in detail with @subtype unless also categorized in general with @type</sch:assert>
     </sch:rule>
   </pattern>
@@ -1000,7 +1030,7 @@ Suggested values include: 1] top; 2] bottom; 3] margin; 4] opposite; 5] overleaf
     </optional>
   </define>
   <pattern xmlns="http://purl.oclc.org/dsdl/schematron" id="primarysourcecoop_rev1-att.pointing-targetLang-targetLang-constraint-rule-6">
-    <sch:rule xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:rng="http://relaxng.org/ns/structure/1.0" xmlns="http://www.tei-c.org/ns/1.0" xmlns:mhs="http://www.masshist.org/ns/1.0" xmlns:sch="http://purl.oclc.org/dsdl/schematron" context="tei:*[not(self::tei:schemaSpec)][@targetLang]">
+    <sch:rule xmlns:rng="http://relaxng.org/ns/structure/1.0" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns="http://www.tei-c.org/ns/1.0" xmlns:mhs="http://www.masshist.org/ns/1.0" xmlns:sch="http://purl.oclc.org/dsdl/schematron" context="tei:*[not(self::tei:schemaSpec)][@targetLang]">
       <sch:assert test="@target">@targetLang should only be used on <sch:name/> if @target is specified.</sch:assert>
     </sch:rule>
   </pattern>
@@ -1086,7 +1116,7 @@ Suggested values include: 1] top; 2] bottom; 3] margin; 4] opposite; 5] overleaf
     </optional>
   </define>
   <pattern xmlns="http://purl.oclc.org/dsdl/schematron" id="primarysourcecoop_rev1-att.spanning-spanTo-spanTo-2-constraint-rule-7">
-    <sch:rule xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:rng="http://relaxng.org/ns/structure/1.0" xmlns="http://www.tei-c.org/ns/1.0" xmlns:mhs="http://www.masshist.org/ns/1.0" xmlns:sch="http://purl.oclc.org/dsdl/schematron" context="tei:*[@spanTo]">
+    <sch:rule xmlns:rng="http://relaxng.org/ns/structure/1.0" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns="http://www.tei-c.org/ns/1.0" xmlns:mhs="http://www.masshist.org/ns/1.0" xmlns:sch="http://purl.oclc.org/dsdl/schematron" context="tei:*[@spanTo]">
       <sch:assert test="id(substring(@spanTo,2)) and following::*[@xml:id=substring(current()/@spanTo,2)]">
 The element indicated by @spanTo (<sch:value-of select="@spanTo"/>) must follow the current element <sch:name/>
          </sch:assert>
@@ -1124,7 +1154,7 @@ The element indicated by @spanTo (<sch:value-of select="@spanTo"/>) must follow 
     </optional>
   </define>
   <pattern xmlns="http://purl.oclc.org/dsdl/schematron" id="primarysourcecoop_rev1-att.styleDef-schemeVersion-schemeVersionRequiresScheme-constraint-rule-8">
-    <sch:rule xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:rng="http://relaxng.org/ns/structure/1.0" xmlns="http://www.tei-c.org/ns/1.0" xmlns:mhs="http://www.masshist.org/ns/1.0" xmlns:sch="http://purl.oclc.org/dsdl/schematron" context="tei:*[@schemeVersion]">
+    <sch:rule xmlns:rng="http://relaxng.org/ns/structure/1.0" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns="http://www.tei-c.org/ns/1.0" xmlns:mhs="http://www.masshist.org/ns/1.0" xmlns:sch="http://purl.oclc.org/dsdl/schematron" context="tei:*[@schemeVersion]">
       <sch:assert test="@scheme and not(@scheme = 'free')">
               @schemeVersion can only be used if @scheme is specified.
             </sch:assert>
@@ -2543,13 +2573,13 @@ Sample values include: 1] rubbing; 2] mildew; 3] smoke</a:documentation>
         </choice>
       </zeroOrMore>
       <sch:pattern xmlns:rng="http://relaxng.org/ns/structure/1.0" xmlns="http://www.tei-c.org/ns/1.0" xmlns:mhs="http://www.masshist.org/ns/1.0" xmlns:sch="http://purl.oclc.org/dsdl/schematron">
-        <sch:rule context="tei:application                                   |tei:date[not(@prev|@calendar)]                                   |tei:time[not(@prev|@calendar)]">
+        <sch:rule context="tei:application | tei:date[ not( @prev | @calendar ) ]">
           <sch:assert test="@when or @when-custom or @when-iso or                                     @notBefore or @notBefore-custom or @notBefore-iso or                                     @notAfter or @notAfter-iso or @notAfter-custom or                                     @from or @from-custom or @from-iso or                                     @to or @to-custom or @to-iso">At least one temporal normalization attribute should be specified on a &lt;<sch:value-of select="name(.)"/>&gt;.</sch:assert>
         </sch:rule>
       </sch:pattern>
       <pattern xmlns="http://purl.oclc.org/dsdl/schematron" id="primarysourcecoop_rev1-date-source_date_content-constraint-rule-10">
         <sch:rule xmlns:sch="http://purl.oclc.org/dsdl/schematron" context="tei:sourceDesc/tei:bibl/tei:date">
-          <sch:assert test="matches( normalize-space(.), '^(([0-9]{1,2} )?[A-Z][a-z]+ )?[0-9]+$' )">
+          <sch:assert test="matches( normalize-space(.), '^(([0-9]{1,2} )?[A-Z][a-z]+[a-z]+ )?[0-9]{2}[0-9]{2}?$' )">
                   The source date should contain a human-readable date in the form “DD Mon YYYY”
                 </sch:assert>
         </sch:rule>
@@ -2568,36 +2598,6 @@ Sample values include: 1] rubbing; 2] mildew; 3] smoke</a:documentation>
             <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
             <value>transcription</value>
             <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
-          </choice>
-        </attribute>
-      </optional>
-      <optional>
-        <attribute name="from-custom">
-          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
-          <choice>
-            <data type="date"/>
-            <data type="gYear"/>
-            <data type="gMonth"/>
-            <data type="gDay"/>
-            <data type="gYearMonth"/>
-            <data type="gMonthDay"/>
-            <data type="time"/>
-            <data type="dateTime"/>
-          </choice>
-        </attribute>
-      </optional>
-      <optional>
-        <attribute name="to-custom">
-          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
-          <choice>
-            <data type="date"/>
-            <data type="gYear"/>
-            <data type="gMonth"/>
-            <data type="gDay"/>
-            <data type="gYearMonth"/>
-            <data type="gMonthDay"/>
-            <data type="time"/>
-            <data type="dateTime"/>
           </choice>
         </attribute>
       </optional>
@@ -2746,8 +2746,18 @@ attributes @target and @cRef may be supplied on <name/>.</report>
   </define>
   <define name="primarysourcecoop_rev1_head">
     <element name="head">
-      <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
-      <empty/>
+      <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(heading) contains any type of heading, for example the title of a section, or the heading of a list, glossary, manuscript description, etc. [4.2.1. Headings and Trailers]</a:documentation>
+      <zeroOrMore>
+        <choice>
+          <text/>
+          <ref name="primarysourcecoop_rev1_lg"/>
+          <ref name="primarysourcecoop_rev1_model.gLike"/>
+          <ref name="primarysourcecoop_rev1_model.phrase"/>
+          <ref name="primarysourcecoop_rev1_model.inter"/>
+          <ref name="primarysourcecoop_rev1_model.lLike"/>
+          <ref name="primarysourcecoop_rev1_model.global"/>
+        </choice>
+      </zeroOrMore>
       <ref name="primarysourcecoop_rev1_att.global.attributes"/>
       <empty/>
     </element>
@@ -3058,7 +3068,7 @@ Sample values include: 1] main; 2] sub (subordinate); 3] alt (alternate); 4] sho
       </group>
       <pattern xmlns="http://purl.oclc.org/dsdl/schematron" id="primarysourcecoop_rev1-teiHeader-require-encodingDesc-constraint-assert-15">
         <rule context="tei:teiHeader">
-          <sch:assert xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:rng="http://relaxng.org/ns/structure/1.0" xmlns="http://www.tei-c.org/ns/1.0" xmlns:mhs="http://www.masshist.org/ns/1.0" xmlns:sch="http://purl.oclc.org/dsdl/schematron" test="tei:encodingDesc">An encoding description (element "encodingDesc") is required in the TEI Header.</sch:assert>
+          <sch:assert xmlns:rng="http://relaxng.org/ns/structure/1.0" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns="http://www.tei-c.org/ns/1.0" xmlns:mhs="http://www.masshist.org/ns/1.0" xmlns:sch="http://purl.oclc.org/dsdl/schematron" test="tei:encodingDesc">An encoding description (element "encodingDesc") is required in the TEI Header.</sch:assert>
         </rule>
       </pattern>
       <ref name="primarysourcecoop_rev1_att.global.attributes"/>
@@ -3192,7 +3202,7 @@ Sample values include: 1] main; 2] sub (subordinate); 3] alt (alternate); 4] sho
         </oneOrMore>
       </choice>
       <pattern xmlns="http://purl.oclc.org/dsdl/schematron" id="primarysourcecoop_rev1-publicationStmt-publication_date-constraint-rule-15">
-        <sch:rule xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:rng="http://relaxng.org/ns/structure/1.0" xmlns="http://www.tei-c.org/ns/1.0" xmlns:mhs="http://www.masshist.org/ns/1.0" xmlns:sch="http://purl.oclc.org/dsdl/schematron" context="tei:publicationStmt/tei:date">
+        <sch:rule xmlns:rng="http://relaxng.org/ns/structure/1.0" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns="http://www.tei-c.org/ns/1.0" xmlns:mhs="http://www.masshist.org/ns/1.0" xmlns:sch="http://purl.oclc.org/dsdl/schematron" context="tei:publicationStmt/tei:date">
           <sch:let name="date" value="normalize-space(.)"/>
           <sch:let name="year" value="if ( matches( $date, '^[0-9]+$' ) )                                           then $date cast as xs:integer                                           else                                           if ( contains( $date, '-' ) )                                             then substring-before( $date, '-') cast as xs:integer                                             else 0"/>
           <sch:let name="next" value="$year + 1"/>
@@ -3535,7 +3545,7 @@ Suggested values include: 1] ISBN; 2] ISSN; 3] DOI; 4] URI; 5] VIAF; 6] ESTC; 7]
       </zeroOrMore>
       <pattern xmlns="http://purl.oclc.org/dsdl/schematron" id="primarysourcecoop_rev1-quotation-quotationContents-constraint-report-11">
         <rule context="tei:quotation">
-          <report xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:rng="http://relaxng.org/ns/structure/1.0" xmlns:mhs="http://www.masshist.org/ns/1.0" xmlns:sch="http://purl.oclc.org/dsdl/schematron" test="not(@marks) and not (tei:p)">
+          <report xmlns:rng="http://relaxng.org/ns/structure/1.0" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:mhs="http://www.masshist.org/ns/1.0" xmlns:sch="http://purl.oclc.org/dsdl/schematron" test="not(@marks) and not (tei:p)">
 On <name/>, either the @marks attribute should be used, or a paragraph of description provided</report>
         </rule>
       </pattern>
@@ -3793,7 +3803,7 @@ Sample values include: 1] first-line; 2] first-letter; 3] before; 4] after</a:do
         </attribute>
       </optional>
       <pattern xmlns="http://purl.oclc.org/dsdl/schematron" id="primarysourcecoop_rev1-citeStructure-delim-citestructure-inner-delim-constraint-rule-16">
-        <rule xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:rng="http://relaxng.org/ns/structure/1.0" xmlns:mhs="http://www.masshist.org/ns/1.0" xmlns:sch="http://purl.oclc.org/dsdl/schematron" context="tei:citeStructure[parent::tei:citeStructure]">
+        <rule xmlns:rng="http://relaxng.org/ns/structure/1.0" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:mhs="http://www.masshist.org/ns/1.0" xmlns:sch="http://purl.oclc.org/dsdl/schematron" context="tei:citeStructure[parent::tei:citeStructure]">
           <assert test="@delim">A <name/> with a parent <name/> must have a @delim attribute.</assert>
         </rule>
       </pattern>
@@ -3802,12 +3812,12 @@ Sample values include: 1] first-line; 2] first-letter; 3] before; 4] after</a:do
         <text/>
       </attribute>
       <pattern xmlns="http://purl.oclc.org/dsdl/schematron" id="primarysourcecoop_rev1-citeStructure-match-citestructure-outer-match-constraint-rule-17">
-        <rule xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:rng="http://relaxng.org/ns/structure/1.0" xmlns:mhs="http://www.masshist.org/ns/1.0" xmlns:sch="http://purl.oclc.org/dsdl/schematron" context="tei:citeStructure[not(parent::tei:citeStructure)]">
+        <rule xmlns:rng="http://relaxng.org/ns/structure/1.0" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:mhs="http://www.masshist.org/ns/1.0" xmlns:sch="http://purl.oclc.org/dsdl/schematron" context="tei:citeStructure[not(parent::tei:citeStructure)]">
           <assert test="starts-with(@match,'/')">An XPath in @match on the outer <name/> must start with '/'.</assert>
         </rule>
       </pattern>
       <pattern xmlns="http://purl.oclc.org/dsdl/schematron" id="primarysourcecoop_rev1-citeStructure-match-citestructure-inner-match-constraint-rule-18">
-        <rule xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:rng="http://relaxng.org/ns/structure/1.0" xmlns:mhs="http://www.masshist.org/ns/1.0" xmlns:sch="http://purl.oclc.org/dsdl/schematron" context="tei:citeStructure[parent::tei:citeStructure]">
+        <rule xmlns:rng="http://relaxng.org/ns/structure/1.0" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:mhs="http://www.masshist.org/ns/1.0" xmlns:sch="http://purl.oclc.org/dsdl/schematron" context="tei:citeStructure[parent::tei:citeStructure]">
           <assert test="not(starts-with(@match,'/'))">An XPath in @match must not start with '/' except on the outer <name/>.</assert>
         </rule>
       </pattern>
@@ -4364,11 +4374,36 @@ Suggested values include: 1] sent; 2] received; 3] transmitted; 4] redirected; 5
     <element name="change">
       <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(change) documents a change or set of changes made during the production of a source document, or during the revision of an electronic file. [2.6. The Revision Description 2.4.1. Creation 11.7. Identifying Changes and Revisions]</a:documentation>
       <ref name="primarysourcecoop_rev1_macro.specialPara"/>
-      <ref name="primarysourcecoop_rev1_att.ascribed.attributes"/>
-      <ref name="primarysourcecoop_rev1_att.datable.attributes"/>
+      <ref name="primarysourcecoop_rev1_att.datable.attribute.calendar"/>
+      <ref name="primarysourcecoop_rev1_att.datable.attribute.period"/>
+      <ref name="primarysourcecoop_rev1_att.datable.w3c.attribute.notBefore"/>
+      <ref name="primarysourcecoop_rev1_att.datable.w3c.attribute.notAfter"/>
+      <ref name="primarysourcecoop_rev1_att.datable.w3c.attribute.from"/>
+      <ref name="primarysourcecoop_rev1_att.datable.w3c.attribute.to"/>
       <ref name="primarysourcecoop_rev1_att.docStatus.attributes"/>
       <ref name="primarysourcecoop_rev1_att.global.attributes"/>
       <ref name="primarysourcecoop_rev1_att.typed.attributes"/>
+      <attribute name="who">
+        <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">indicates the person, or group of people, to whom the element content is ascribed.</a:documentation>
+        <list>
+          <oneOrMore>
+            <data type="anyURI"/>
+          </oneOrMore>
+        </list>
+      </attribute>
+      <attribute name="when">
+        <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">supplies the value of the date or time in a standard form, e.g. yyyy-mm-dd.</a:documentation>
+        <choice>
+          <data type="date"/>
+          <data type="gYear"/>
+          <data type="gMonth"/>
+          <data type="gDay"/>
+          <data type="gYearMonth"/>
+          <data type="gMonthDay"/>
+          <data type="time"/>
+          <data type="dateTime"/>
+        </choice>
+      </attribute>
       <optional>
         <attribute name="target">
           <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(target) points to one or more elements that belong to this change.</a:documentation>
@@ -4581,105 +4616,12 @@ Suggested values include: 1] sent; 2] received; 3] transmitted; 4] redirected; 5
     <element name="body">
       <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(text body) contains the whole body of a single unitary text, excluding any front or back matter. [4. Default Text Structure]</a:documentation>
       <group>
+        <ref name="primarysourcecoop_rev1_docbody"/>
         <zeroOrMore>
-          <ref name="primarysourcecoop_rev1_model.global"/>
+          <ref name="primarysourcecoop_rev1_insertion"/>
         </zeroOrMore>
-        <optional>
-          <group>
-            <ref name="primarysourcecoop_rev1_model.divTop"/>
-            <zeroOrMore>
-              <choice>
-                <ref name="primarysourcecoop_rev1_model.global"/>
-                <ref name="primarysourcecoop_rev1_model.divTop"/>
-              </choice>
-            </zeroOrMore>
-          </group>
-        </optional>
-        <optional>
-          <group>
-            <ref name="primarysourcecoop_rev1_model.divGenLike"/>
-            <zeroOrMore>
-              <choice>
-                <ref name="primarysourcecoop_rev1_model.global"/>
-                <ref name="primarysourcecoop_rev1_model.divGenLike"/>
-              </choice>
-            </zeroOrMore>
-          </group>
-        </optional>
-        <choice>
-          <oneOrMore>
-            <group>
-              <ref name="primarysourcecoop_rev1_model.divLike"/>
-              <zeroOrMore>
-                <choice>
-                  <ref name="primarysourcecoop_rev1_model.global"/>
-                  <ref name="primarysourcecoop_rev1_model.divGenLike"/>
-                </choice>
-              </zeroOrMore>
-            </group>
-          </oneOrMore>
-          <oneOrMore>
-            <group>
-              <ref name="primarysourcecoop_rev1_model.div1Like"/>
-              <zeroOrMore>
-                <choice>
-                  <ref name="primarysourcecoop_rev1_model.global"/>
-                  <ref name="primarysourcecoop_rev1_model.divGenLike"/>
-                </choice>
-              </zeroOrMore>
-            </group>
-          </oneOrMore>
-          <group>
-            <oneOrMore>
-              <group>
-                <ref name="primarysourcecoop_rev1_model.common"/>
-                <zeroOrMore>
-                  <ref name="primarysourcecoop_rev1_model.global"/>
-                </zeroOrMore>
-              </group>
-            </oneOrMore>
-            <optional>
-              <choice>
-                <oneOrMore>
-                  <group>
-                    <ref name="primarysourcecoop_rev1_model.divLike"/>
-                    <zeroOrMore>
-                      <choice>
-                        <ref name="primarysourcecoop_rev1_model.global"/>
-                        <ref name="primarysourcecoop_rev1_model.divGenLike"/>
-                      </choice>
-                    </zeroOrMore>
-                  </group>
-                </oneOrMore>
-                <oneOrMore>
-                  <group>
-                    <ref name="primarysourcecoop_rev1_model.div1Like"/>
-                    <zeroOrMore>
-                      <choice>
-                        <ref name="primarysourcecoop_rev1_model.global"/>
-                        <ref name="primarysourcecoop_rev1_model.divGenLike"/>
-                      </choice>
-                    </zeroOrMore>
-                  </group>
-                </oneOrMore>
-              </choice>
-            </optional>
-          </group>
-        </choice>
-        <zeroOrMore>
-          <group>
-            <ref name="primarysourcecoop_rev1_model.divBottom"/>
-            <zeroOrMore>
-              <ref name="primarysourcecoop_rev1_model.global"/>
-            </zeroOrMore>
-          </group>
-        </zeroOrMore>
+        <ref name="primarysourcecoop_rev1_docback"/>
       </group>
-      <pattern xmlns="http://purl.oclc.org/dsdl/schematron" id="primarysourcecoop_rev1-body-require-docback-constraint-assert-21">
-        <rule context="tei:body">
-          <sch:assert xmlns:rng="http://relaxng.org/ns/structure/1.0" xmlns="http://www.tei-c.org/ns/1.0" xmlns:mhs="http://www.masshist.org/ns/1.0" xmlns:sch="http://purl.oclc.org/dsdl/schematron" test="tei:div[@type eq 'docback']">A div with type attribute "docback" is required.</sch:assert>
-        </rule>
-      </pattern>
       <ref name="primarysourcecoop_rev1_att.global.attributes"/>
       <ref name="primarysourcecoop_rev1_att.declaring.attributes"/>
       <empty/>
@@ -4766,12 +4708,6 @@ Suggested values include: 1] sent; 2] received; 3] transmitted; 4] redirected; 5
           <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">characterizes the element in some sense, using any convenient classification scheme or typology.</a:documentation>
           <choice>
             <value>doc</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
-            <value>docbody</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
-            <value>docback</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
-            <value>insertion</value>
             <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
             <value>entry</value>
             <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
@@ -5371,6 +5307,199 @@ Sample values include: 1] binding; 2] endband; 3] slipcase; 4] support; 5] tie</
       </group>
       <ref name="primarysourcecoop_rev1_att.global.attributes"/>
       <ref name="primarysourcecoop_rev1_att.typed.attributes"/>
+      <empty/>
+    </element>
+  </define>
+  <define name="primarysourcecoop_rev1_docbody">
+    <element name="div">
+      <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
+      <ref name="primarysourcecoop_rev1_macro.docbody"/>
+      <optional>
+        <attribute name="type">
+          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
+          <choice>
+            <value>docbody</value>
+            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
+          </choice>
+        </attribute>
+      </optional>
+      <empty/>
+    </element>
+  </define>
+  <define name="primarysourcecoop_rev1_insertion">
+    <element name="div">
+      <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
+      <group>
+        <ref name="primarysourcecoop_rev1_p"/>
+        <ref name="primarysourcecoop_rev1_p"/>
+        <optional>
+          <ref name="primarysourcecoop_rev1_p"/>
+          <optional>
+            <ref name="primarysourcecoop_rev1_p"/>
+            <optional>
+              <ref name="primarysourcecoop_rev1_p"/>
+              <optional>
+                <ref name="primarysourcecoop_rev1_p"/>
+                <optional>
+                  <ref name="primarysourcecoop_rev1_p"/>
+                  <optional>
+                    <ref name="primarysourcecoop_rev1_p"/>
+                    <optional>
+                      <ref name="primarysourcecoop_rev1_p"/>
+                      <optional>
+                        <ref name="primarysourcecoop_rev1_p"/>
+                        <optional>
+                          <ref name="primarysourcecoop_rev1_p"/>
+                          <optional>
+                            <ref name="primarysourcecoop_rev1_p"/>
+                          </optional>
+                        </optional>
+                      </optional>
+                    </optional>
+                  </optional>
+                </optional>
+              </optional>
+            </optional>
+          </optional>
+        </optional>
+      </group>
+      <optional>
+        <attribute name="type">
+          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
+          <choice>
+            <value>insertion</value>
+            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
+          </choice>
+        </attribute>
+      </optional>
+      <empty/>
+    </element>
+  </define>
+  <define name="primarysourcecoop_rev1_docback">
+    <element name="div">
+      <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
+      <group>
+        <ref name="primarysourcecoop_rev1_sourceNote"/>
+        <optional>
+          <ref name="primarysourcecoop_rev1_sourceNote"/>
+        </optional>
+      </group>
+      <optional>
+        <attribute name="type">
+          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
+          <choice>
+            <value>docback</value>
+            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
+          </choice>
+        </attribute>
+      </optional>
+      <empty/>
+    </element>
+  </define>
+  <define name="primarysourcecoop_rev1_sourceNote">
+    <element name="note">
+      <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
+      <choice>
+        <group>
+          <ref name="primarysourcecoop_rev1_p"/>
+          <optional>
+            <ref name="primarysourcecoop_rev1_p"/>
+            <optional>
+              <ref name="primarysourcecoop_rev1_p"/>
+              <optional>
+                <ref name="primarysourcecoop_rev1_p"/>
+                <optional>
+                  <ref name="primarysourcecoop_rev1_p"/>
+                  <optional>
+                    <ref name="primarysourcecoop_rev1_p"/>
+                    <optional>
+                      <ref name="primarysourcecoop_rev1_p"/>
+                      <optional>
+                        <ref name="primarysourcecoop_rev1_p"/>
+                        <optional>
+                          <ref name="primarysourcecoop_rev1_p"/>
+                          <optional>
+                            <ref name="primarysourcecoop_rev1_p"/>
+                          </optional>
+                        </optional>
+                      </optional>
+                    </optional>
+                  </optional>
+                </optional>
+              </optional>
+            </optional>
+          </optional>
+        </group>
+        <group>
+          <ref name="primarysourcecoop_rev1_note"/>
+          <optional>
+            <ref name="primarysourcecoop_rev1_note"/>
+            <optional>
+              <ref name="primarysourcecoop_rev1_note"/>
+              <optional>
+                <ref name="primarysourcecoop_rev1_note"/>
+                <optional>
+                  <ref name="primarysourcecoop_rev1_note"/>
+                  <optional>
+                    <ref name="primarysourcecoop_rev1_note"/>
+                    <optional>
+                      <ref name="primarysourcecoop_rev1_note"/>
+                      <optional>
+                        <ref name="primarysourcecoop_rev1_note"/>
+                        <optional>
+                          <ref name="primarysourcecoop_rev1_note"/>
+                          <optional>
+                            <ref name="primarysourcecoop_rev1_note"/>
+                            <optional>
+                              <ref name="primarysourcecoop_rev1_note"/>
+                              <optional>
+                                <ref name="primarysourcecoop_rev1_note"/>
+                                <optional>
+                                  <ref name="primarysourcecoop_rev1_note"/>
+                                  <optional>
+                                    <ref name="primarysourcecoop_rev1_note"/>
+                                    <optional>
+                                      <ref name="primarysourcecoop_rev1_note"/>
+                                      <optional>
+                                        <ref name="primarysourcecoop_rev1_note"/>
+                                        <optional>
+                                          <ref name="primarysourcecoop_rev1_note"/>
+                                          <optional>
+                                            <ref name="primarysourcecoop_rev1_note"/>
+                                            <optional>
+                                              <ref name="primarysourcecoop_rev1_note"/>
+                                              <optional>
+                                                <ref name="primarysourcecoop_rev1_note"/>
+                                              </optional>
+                                            </optional>
+                                          </optional>
+                                        </optional>
+                                      </optional>
+                                    </optional>
+                                  </optional>
+                                </optional>
+                              </optional>
+                            </optional>
+                          </optional>
+                        </optional>
+                      </optional>
+                    </optional>
+                  </optional>
+                </optional>
+              </optional>
+            </optional>
+          </optional>
+        </group>
+      </choice>
+      <optional>
+        <attribute name="type">
+          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
+          <choice>
+            <value>source</value>
+            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
+          </choice>
+        </attribute>
+      </optional>
       <empty/>
     </element>
   </define>
