@@ -27,6 +27,7 @@
       </sourceDesc>
     </fileDesc>
     <revisionDesc>
+      <change who="#lj" when="2021-05-27">Added schematron rules to <gi>opener</gi>. </change>
       <change who="#sb" when="2021-05-27">
         <list>
           <item>Continued work on the docbody-insertion-docback structure</item>
@@ -274,7 +275,17 @@
             </attDef>
           </attList>
         </elementSpec>
-
+        <elementSpec ident="opener" mode="change">
+          <constraintSpec ident="dateline-in-opener" scheme="schematron">
+            <constraint>
+              <sch:rule context="tei:opener">
+                <sch:assert test="tei:dateline">An opener element needs a &lt;dateline> element.</sch:assert>
+                <sch:assert test="tei:salute">An opener element needs a &lt;salute> element.</sch:assert>
+              </sch:rule>
+            </constraint>
+          </constraintSpec>
+        </elementSpec>
+        
         <!-- 
              The <body> is limited to very precise content:
              - 1   <div type="docbody">
