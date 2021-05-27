@@ -27,6 +27,7 @@
       </sourceDesc>
     </fileDesc>
     <revisionDesc>
+      <change who="#lj" when="2021-05-27">Added schematron rules to <gi>opener</gi>. </change>
       <change who="#sb" when="2021-05-19">With #lj, tweak some of the Schematron I added yesterday</change>
       <change who="#sb" when="2021-05-18">
         <list>
@@ -294,6 +295,20 @@
             </attDef>
           </attList>
         </elementSpec>
+        
+        
+        <elementSpec ident="opener" mode="change">
+          <constraintSpec ident="dateline-in-opener" scheme="schematron">
+            <constraint>
+              <sch:rule context="tei:opener">
+                <sch:assert test="tei:dateline">An opener element needs a &lt;dateline> element.</sch:assert>
+                <sch:assert test="tei:salute">An opener element needs a &lt;salute> element.</sch:assert>
+              </sch:rule>
+            </constraint>
+          </constraintSpec>
+        </elementSpec>
+
+        
         <!-- figures module -->
         <moduleRef key="figures" include="table row cell"/>
         <elementSpec ident="table" mode="change">
