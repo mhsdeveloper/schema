@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <schema xmlns="http://purl.oclc.org/dsdl/schematron" queryBinding="xslt2">
    <title>ISO Schematron rules</title>
-   <!-- This file generated 2021-05-27T14:53:26Z by 'extract-isosch.xsl'. -->
+   <!-- This file generated 2021-06-04T20:44:59Z by 'extract-isosch.xsl'. -->
    <!-- ********************* -->
    <!-- namespaces, declared: -->
    <!-- ********************* -->
@@ -145,13 +145,13 @@ attributes @target and @cRef may be supplied on <name/>.</report>
    </pattern>
    <pattern id="schematron-constraint-primarysourcecoop_rev1-publicationStmt-publication_date-21">
       <rule context="tei:publicationStmt/tei:date">
-         <let name="date" value="normalize-space(.)"/>
-         <let name="year"
-              value="if ( matches( $date, '^[0-9]+$' ) )                                           then $date cast as xs:integer                                           else                                           if ( contains( $date, '-' ) )                                             then substring-before( $date, '-') cast as xs:integer                                             else 0"/>
-         <let name="next" value="$year + 1"/>
-         <assert test="$date castable as xs:gYear                                or $date castable as xs:gYearMonth                                or $date castable as xs:date">The publication date should be a year in YYYY format, a year and month in YYYY-MM format, or a date in YYYY-MM-DD format.</assert>
-         <assert test="matches( $date, '^20[0-9][0-9](-[01][0-9](-[0-3])?)?')">The date of publication should be in the 21st century</assert>
-         <report test="$next ge year-from-date( current-date() )">The date of publication should not be in the future (at least, not past next year)</report>
+         <let name="pub_date" value="normalize-space(.)"/>
+         <let name="pub_year"
+              value="if ( matches( $pub_date, '^[0-9]+$' ) )                                                 then $pub_date cast as xs:integer                                                 else if ( contains( $pub_date, '-' ) )                                                   then substring-before( $pub_date, '-') cast as xs:integer                                                   else 0"/>
+         <let name="year_before_pub_year" value="$pub_year - 1"/>
+         <assert test="$pub_date castable as xs:gYear                                or $pub_date castable as xs:gYearMonth                                or $pub_date castable as xs:date">The publication date should be a year in YYYY format, a year and month in YYYY-MM format, or a date in YYYY-MM-DD format.</assert>
+         <assert test="matches( $pub_date, '^20[0-9][0-9](-[01][0-9](-[0-3])?)?')">The date of publication should be in the 21st century</assert>
+         <report test="$year_before_pub_year gt year-from-date( current-date() )">The date of publication should not be in the future (at least, not past next year)</report>
       </rule>
    </pattern>
    <pattern id="schematron-constraint-primarysourcecoop_rev1-quotation-quotationContents-22">
@@ -189,9 +189,20 @@ On <name/>, either the @marks attribute should be used, or a paragraph of descri
       </report>
       </rule>
    </pattern>
-   <pattern id="schematron-constraint-primarysourcecoop_rev1-msIdentifier-msId_minimal-30">
+   <pattern id="schematron-constraint-primarysourcecoop_rev1-opener-dateline-in-opener-30">
+      <rule context="tei:opener">
+         <assert test="tei:dateline">An opener element needs a &lt;dateline&gt; element.</assert>
+         <assert test="tei:salute">An opener element needs a &lt;salute&gt; element.</assert>
+      </rule>
+   </pattern>
+   <pattern id="schematron-constraint-primarysourcecoop_rev1-msIdentifier-msId_minimal-31">
       <rule context="tei:msIdentifier">
          <report test="not(parent::tei:msPart) and (local-name(*[1])='idno' or local-name(*[1])='altIdentifier' or normalize-space(.)='')">An msIdentifier must contain either a repository or location.</report>
+      </rule>
+   </pattern>
+   <pattern id="schematron-constraint-primarysourcecoop_rev1-macro.docbody-no_space_child_of_docbody-32">
+      <rule context="tei:div[@type eq 'docbody']/tei:space">
+         <report test="not( @dim eq 'horizontal')">The &lt;space&gt; element is used only for horizontal space, not vertical, and thus should not be between paragraph-level things.</report>
       </rule>
    </pattern>
 </schema>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-model href="https://tei-c.org/Vault/P5/current/xml/tei/custom/schema/relaxng/tei_customization.rnc" type="application/relax-ng-compact-syntax"?>
-<TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:mhs="http://www.masshist.org/ns/1.0" xml:lang="en" 
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:mhs="http://www.masshist.org/ns/1.0" xml:lang="en"
   xmlns:sch="http://purl.oclc.org/dsdl/schematron">
   <teiHeader>
     <fileDesc>
@@ -27,6 +27,14 @@
       </sourceDesc>
     </fileDesc>
     <revisionDesc>
+      <change who="#sb" when="2021-06-04">
+        With <persName ref="#lj"/>:
+        <list>
+          <item>Fix not-in-future logic</item>
+          <item>add co-occurence constrained specifications to constrain content of source notes</item>
+          <item>Added <name>no_space_child_of_docbody</name> constraint</item>
+        </list>
+      </change>
       <change who="#lj" when="2021-05-27">Added schematron rules to <gi>opener</gi>. </change>
       <change who="#sb" when="2021-05-27">
         <list>
@@ -109,7 +117,7 @@
         <moduleRef key="tei"/>
 
         <!-- ========= core module ========= -->
-        <moduleRef key="core" include="abbr add author bibl cb date del editor expan gap head hi item l label lb lg list name note orig p pb ptr ref reg resp respStmt title unclear sourceDesc textClass keywords list"/>
+        <moduleRef key="core" include="abbr add author bibl cb date del editor expan gap head hi item l label lb lg list name note orig p pb ptr publisher ref reg resp respStmt title unclear sourceDesc textClass keywords list"/>
         <elementSpec ident="date" mode="change">
           <constraintSpec scheme="schematron" ident="datingAttr">
             <constraint>
@@ -183,7 +191,7 @@
             </sequence>
           </content>
         </elementSpec>
-        
+
         <!-- ========= header module ========= -->
         <moduleRef key="header"/>
         <elementSpec ident="teiHeader" mode="change">
@@ -207,7 +215,7 @@
               <elementRef key="sourceDesc" minOccurs="1" maxOccurs="unbounded"/>
             </sequence>
           </content>
-        </elementSpec>        
+        </elementSpec>
         <elementSpec ident="respStmt" mode="change">
           <constraintSpec ident="note-in-respStmt" scheme="schematron">
             <constraint>
@@ -232,19 +240,18 @@
             next year.</desc>
             <constraint>
               <sch:rule context="tei:publicationStmt/tei:date">
-                <sch:let name="date" value="normalize-space(.)"/>
-                <sch:let name="year" value="if ( matches( $date, '^[0-9]+$' ) )
-                                          then $date cast as xs:integer
-                                          else
-                                          if ( contains( $date, '-' ) )
-                                            then substring-before( $date, '-') cast as xs:integer
-                                            else 0"/>
-                <sch:let name="next" value="$year + 1"/>
-                <sch:assert test="$date castable as xs:gYear
-                               or $date castable as xs:gYearMonth
-                               or $date castable as xs:date">The publication date should be a year in YYYY format, a year and month in YYYY-MM format, or a date in YYYY-MM-DD format.</sch:assert>
-                <sch:assert test="matches( $date, '^20[0-9][0-9](-[01][0-9](-[0-3])?)?')">The date of publication should be in the 21st century</sch:assert>
-                <sch:report test="$next ge year-from-date( current-date() )">The date of publication should not be in the future (at least, not past next year)</sch:report>
+                <sch:let name="pub_date" value="normalize-space(.)"/>
+                <sch:let name="pub_year" value="if ( matches( $pub_date, '^[0-9]+$' ) )
+                                                then $pub_date cast as xs:integer
+                                                else if ( contains( $pub_date, '-' ) )
+                                                  then substring-before( $pub_date, '-') cast as xs:integer
+                                                  else 0"/>
+                <sch:let name="year_before_pub_year" value="$pub_year - 1"/>
+                <sch:assert test="$pub_date castable as xs:gYear
+                               or $pub_date castable as xs:gYearMonth
+                               or $pub_date castable as xs:date">The publication date should be a year in YYYY format, a year and month in YYYY-MM format, or a date in YYYY-MM-DD format.</sch:assert>
+                <sch:assert test="matches( $pub_date, '^20[0-9][0-9](-[01][0-9](-[0-3])?)?')">The date of publication should be in the 21st century</sch:assert>
+                <sch:report test="$year_before_pub_year gt year-from-date( current-date() )">The date of publication should not be in the future (at least, not past next year)</sch:report>
               </sch:rule>
             </constraint>
           </constraintSpec>
@@ -255,7 +262,7 @@
             <attDef ident="when" usage="req" mode="change"/>
           </attList>
         </elementSpec>
-        
+
         <!-- ========= namesdates module ========= -->
         <!-- ========= verse module ========= -->
         <!-- ========= transcr module ========= -->
@@ -285,8 +292,8 @@
             </constraint>
           </constraintSpec>
         </elementSpec>
-        
-        <!-- 
+
+        <!--
              The <body> is limited to very precise content:
              - 1   <div type="docbody">
              - 0+  <div type="insertion">
@@ -318,8 +325,15 @@
         </elementSpec>
         <elementSpec ident="insertion" mode="add">
           <altIdent>div</altIdent>
+          <classes>
+            <memberOf key="att.global"/>
+            <memberOf key="att.divLike"/>
+            <!-- not att.typed, as we have our own @type and do not want @subtype -->
+            <memberOf key="att.declaring"/>
+            <memberOf key="att.written"/>
+          </classes>
           <content>
-            <elementRef key="p" minOccurs="2" maxOccurs="12"/>
+            <elementRef key="p" minOccurs="1" maxOccurs="unbounded"/>
           </content>
           <attList>
             <attDef ident="type">
@@ -333,6 +347,7 @@
           <altIdent>div</altIdent>
           <content>
             <elementRef key="sourceNote" minOccurs="1" maxOccurs="2"/>
+            <elementRef key="fn" minOccurs="0" maxOccurs="unbounded"/>
           </content>
           <attList>
             <attDef ident="type">
@@ -365,18 +380,154 @@
           </attList>
         </elementSpec>
         <!-- Subsnippets -->
-        <elementSpec ident="sourceNote" mode="add">
+        <elementSpec ident="fn" mode="add">
           <altIdent>note</altIdent>
+          <classes>
+            <memberOf key="att.global"/>
+          </classes>
           <content>
-            <alternate>
-              <elementRef key="p" minOccurs="1" maxOccurs="10"/>
-              <elementRef key="note" minOccurs="1" maxOccurs="20"/>
-            </alternate>
+            <macroRef key="macro.specialPara"/>
           </content>
           <attList>
-            <attDef ident="type">
+            <attDef ident="type" usage="req">
+              <valList mode="add" type="closed">
+                <valItem ident="fn"/>
+              </valList>
+            </attDef>
+          </attList>
+        </elementSpec>
+        <elementSpec ident="sourceNote" mode="add">
+          <altIdent>note</altIdent>
+          <classes>
+            <memberOf key="att.global"/>
+          </classes>
+          <content>
+            <sequence>
+              <elementRef key="sn_doctype" minOccurs="1" maxOccurs="1"/>
+              <elementRef key="sn_repository" minOccurs="1" maxOccurs="1"/>
+              <elementRef key="sn_collection" minOccurs="1" maxOccurs="1"/>
+              <elementRef key="sn_condition" minOccurs="0" maxOccurs="1"/>
+              <elementRef key="sn_address" minOccurs="0" maxOccurs="1"/>
+              <elementRef key="sn_endorsement" minOccurs="0" maxOccurs="1"/>
+              <elementRef key="sn_notation" minOccurs="0" maxOccurs="1"/>
+            </sequence>
+          </content>
+          <attList>
+            <attDef ident="type" usage="req">
               <valList mode="add" type="closed">
                 <valItem ident="source"/>
+              </valList>
+            </attDef>
+          </attList>
+        </elementSpec>
+        <elementSpec ident="sn_doctype" mode="add">
+          <altIdent>note</altIdent>
+          <classes>
+            <memberOf key="att.global"/>
+          </classes>
+          <content>
+            <macroRef key="macro.specialPara"/>
+          </content>
+          <attList>
+            <attDef ident="type" usage="req">
+              <valList mode="add" type="closed">
+                <valItem ident="doctype"/>
+              </valList>
+            </attDef>
+          </attList>
+        </elementSpec>
+        <elementSpec ident="sn_repository" mode="add">
+          <altIdent>note</altIdent>
+          <classes>
+            <memberOf key="att.global"/>
+          </classes>
+          <content>
+            <macroRef key="macro.specialPara"/>
+          </content>
+          <attList>
+            <attDef ident="type" usage="req">
+              <valList mode="add" type="closed">
+                <valItem ident="repository"/>
+              </valList>
+            </attDef>
+          </attList>
+        </elementSpec>
+        <elementSpec ident="sn_collection" mode="add">
+          <altIdent>note</altIdent>
+          <classes>
+            <memberOf key="att.global"/>
+          </classes>
+          <content>
+            <macroRef key="macro.specialPara"/>
+          </content>
+          <attList>
+            <attDef ident="type" usage="req">
+              <valList mode="add" type="closed">
+                <valItem ident="collection"/>
+              </valList>
+            </attDef>
+          </attList>
+        </elementSpec>
+        <elementSpec ident="sn_condition" mode="add">
+          <altIdent>note</altIdent>
+          <classes>
+            <memberOf key="att.global"/>
+          </classes>
+          <content>
+            <macroRef key="macro.specialPara"/>
+          </content>
+          <attList>
+            <attDef ident="type" usage="req">
+              <valList mode="add" type="closed">
+                <valItem ident="condition"/>
+              </valList>
+            </attDef>
+          </attList>
+        </elementSpec>
+        <elementSpec ident="sn_address" mode="add">
+          <altIdent>note</altIdent>
+          <classes>
+            <memberOf key="att.global"/>
+          </classes>
+          <content>
+            <macroRef key="macro.specialPara"/>
+          </content>
+          <attList>
+            <attDef ident="type" usage="req">
+              <valList mode="add" type="closed">
+                <valItem ident="address"/>
+              </valList>
+            </attDef>
+          </attList>
+        </elementSpec>
+        <elementSpec ident="sn_endorsement" mode="add">
+          <altIdent>note</altIdent>
+          <classes>
+            <memberOf key="att.global"/>
+          </classes>
+          <content>
+            <macroRef key="macro.specialPara"/>
+          </content>
+          <attList>
+            <attDef ident="type" usage="req">
+              <valList mode="add" type="closed">
+                <valItem ident="endorsement"/>
+              </valList>
+            </attDef>
+          </attList>
+        </elementSpec>
+        <elementSpec ident="sn_notation" mode="add">
+          <altIdent>note</altIdent>
+          <classes>
+            <memberOf key="att.global"/>
+          </classes>
+          <content>
+            <macroRef key="macro.specialPara"/>
+          </content>
+          <attList>
+            <attDef ident="type" usage="req">
+              <valList mode="add" type="closed">
+                <valItem ident="notation"/>
               </valList>
             </attDef>
           </attList>
@@ -408,6 +559,13 @@
               <classRef key="model.global" minOccurs="0" maxOccurs="unbounded"/>
             </sequence>
           </content>
+          <constraintSpec scheme="schematron" ident="no_space_child_of_docbody">
+            <constraint>
+              <sch:rule context="tei:div[@type eq 'docbody']/tei:space">
+                <sch:report test="not( @dim eq 'horizontal')">The &lt;space> element is used only for horizontal space, not vertical, and thus should not be between paragraph-level things.</sch:report>
+              </sch:rule>
+            </constraint>
+          </constraintSpec>
         </macroSpec>
         <!-- ========= figures module ========= -->
         <moduleRef key="figures" include="table row cell"/>
