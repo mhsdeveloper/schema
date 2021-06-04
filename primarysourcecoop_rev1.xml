@@ -27,6 +27,7 @@
       </sourceDesc>
     </fileDesc>
     <revisionDesc>
+      <change who="#lj" when="2021-06-04">Removed unnecessary Schematron rules about the <gi>opener</gi>.</change>
       <change who="#sb" when="2021-06-04">
         With <persName ref="#lj"/>:
         <list>
@@ -281,16 +282,6 @@
               </valList>
             </attDef>
           </attList>
-        </elementSpec>
-        <elementSpec ident="opener" mode="change">
-          <constraintSpec ident="dateline-in-opener" scheme="schematron">
-            <constraint>
-              <sch:rule context="tei:opener">
-                <sch:assert test="tei:dateline">An opener element needs a &lt;dateline> element.</sch:assert>
-                <sch:assert test="tei:salute">An opener element needs a &lt;salute> element.</sch:assert>
-              </sch:rule>
-            </constraint>
-          </constraintSpec>
         </elementSpec>
 
         <!--
