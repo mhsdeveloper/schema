@@ -5,7 +5,7 @@
          xmlns="http://relaxng.org/ns/structure/1.0"
          datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"
          ns="http://www.tei-c.org/ns/1.0"><!--
-Schema generated from ODD source 2021-05-27T14:31:03Z. .
+Schema generated from ODD source 2021-06-15T19:06:30Z. .
 TEI Edition: Version 4.1.0. Last updated on
 	19th August 2020, revision b414ba550
 TEI Edition Location: https://www.tei-c.org/Vault/P5/Version 4.1.0/
@@ -66,6 +66,51 @@ TEI Edition Location: https://www.tei-c.org/Vault/P5/Version 4.1.0/
          </choice>
       </zeroOrMore>
    </define>
+   <define name="macro.docbody">
+      <optional>
+         <ref name="head"/>
+      </optional>
+      <zeroOrMore>
+         <ref name="model.global"/>
+      </zeroOrMore>
+      <ref name="opener"/>
+      <zeroOrMore>
+         <ref name="model.global"/>
+      </zeroOrMore>
+      <oneOrMore>
+         <choice>
+            <ref name="p"/>
+            <ref name="lg"/>
+            <ref name="l"/>
+            <ref name="gap"/>
+         </choice>
+      </oneOrMore>
+      <zeroOrMore>
+         <choice>
+            <ref name="p"/>
+            <ref name="lg"/>
+            <ref name="l"/>
+            <ref name="gap"/>
+            <ref name="model.global"/>
+         </choice>
+      </zeroOrMore>
+      <optional>
+         <ref name="closer"/>
+      </optional>
+      <zeroOrMore>
+         <ref name="model.global"/>
+      </zeroOrMore>
+      <zeroOrMore>
+         <group>
+            <oneOrMore>
+               <ref name="postscript"/>
+            </oneOrMore>
+            <zeroOrMore>
+               <ref name="model.global"/>
+            </zeroOrMore>
+         </group>
+      </zeroOrMore>
+   </define>
    <define name="anyElement-xenoData">
       <element>
          <anyName>
@@ -86,21 +131,6 @@ TEI Edition Location: https://www.tei-c.org/Vault/P5/Version 4.1.0/
             </choice>
          </zeroOrMore>
       </element>
-   </define>
-   <define name="att.ascribed.attributes">
-      <ref name="att.ascribed.attribute.who"/>
-   </define>
-   <define name="att.ascribed.attribute.who">
-      <optional>
-         <attribute name="who">
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">indicates the person, or group of people, to whom the element content is ascribed.</a:documentation>
-            <list>
-               <oneOrMore>
-                  <data type="anyURI"/>
-               </oneOrMore>
-            </list>
-         </attribute>
-      </optional>
    </define>
    <define name="att.canonical.attributes">
       <ref name="att.canonical.attribute.key"/>
@@ -1880,6 +1910,7 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
    </define>
    <define name="model.publicationStmtPart.agency">
       <choice>
+         <ref name="publisher"/>
          <ref name="distributor"/>
          <ref name="authority"/>
       </choice>
@@ -2023,6 +2054,7 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
    </define>
    <define name="model.imprintPart">
       <choice>
+         <ref name="publisher"/>
          <ref name="distributor"/>
       </choice>
    </define>
@@ -2578,7 +2610,7 @@ Sample values include: 1] rubbing; 2] mildew; 3] smoke</a:documentation>
          <sch:pattern xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:mhs="http://www.masshist.org/ns/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron">
-            <sch:rule context="tei:application                                   |tei:date[not(@prev|@calendar)]                                   |tei:time[not(@prev|@calendar)]">
+            <sch:rule context="tei:application | tei:date[ not( @prev | @calendar ) ]">
                <sch:assert test="@when or @when-custom or @when-iso or                                     @notBefore or @notBefore-custom or @notBefore-iso or                                     @notAfter or @notAfter-iso or @notAfter-custom or                                     @from or @from-custom or @from-iso or                                     @to or @to-custom or @to-iso">At least one temporal normalization attribute should be specified on a &lt;<sch:value-of select="name(.)"/>&gt;.</sch:assert>
             </sch:rule>
          </sch:pattern>
@@ -2586,7 +2618,7 @@ Sample values include: 1] rubbing; 2] mildew; 3] smoke</a:documentation>
                   id="primarysourcecoop_rev1-date-source_date_content-constraint-rule-10">
             <sch:rule xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       context="tei:sourceDesc/tei:bibl/tei:date">
-               <sch:assert test="matches( normalize-space(.), '^(([0-9]{1,2} )?[A-Z][a-z]+ )?[0-9]+$' )">
+               <sch:assert test="matches( normalize-space(.), '^(([0-9]{1,2} )?[A-Z][a-z]+[a-z]+ )?[0-9]{2}[0-9]{2}?$' )">
                   The source date should contain a human-readable date in the form “DD Mon YYYY”
                 </sch:assert>
             </sch:rule>
@@ -2605,36 +2637,6 @@ Sample values include: 1] rubbing; 2] mildew; 3] smoke</a:documentation>
                   <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
                   <value>transcription</value>
                   <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
-               </choice>
-            </attribute>
-         </optional>
-         <optional>
-            <attribute name="from-custom">
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
-               <choice>
-                  <data type="date"/>
-                  <data type="gYear"/>
-                  <data type="gMonth"/>
-                  <data type="gDay"/>
-                  <data type="gYearMonth"/>
-                  <data type="gMonthDay"/>
-                  <data type="time"/>
-                  <data type="dateTime"/>
-               </choice>
-            </attribute>
-         </optional>
-         <optional>
-            <attribute name="to-custom">
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
-               <choice>
-                  <data type="date"/>
-                  <data type="gYear"/>
-                  <data type="gMonth"/>
-                  <data type="gDay"/>
-                  <data type="gYearMonth"/>
-                  <data type="gMonthDay"/>
-                  <data type="time"/>
-                  <data type="dateTime"/>
                </choice>
             </attribute>
          </optional>
@@ -2793,8 +2795,18 @@ attributes @target and @cRef may be supplied on <name/>.</report>
    </define>
    <define name="head">
       <element name="head">
-         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
-         <empty/>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(heading) contains any type of heading, for example the title of a section, or the heading of a list, glossary, manuscript description, etc. [4.2.1. Headings and Trailers]</a:documentation>
+         <zeroOrMore>
+            <choice>
+               <text/>
+               <ref name="lg"/>
+               <ref name="model.gLike"/>
+               <ref name="model.phrase"/>
+               <ref name="model.inter"/>
+               <ref name="model.lLike"/>
+               <ref name="model.global"/>
+            </choice>
+         </zeroOrMore>
          <ref name="att.global.attributes"/>
          <empty/>
       </element>
@@ -2995,6 +3007,15 @@ Sample values include: 1] main; 2] sub (subordinate); 3] alt (alternate); 4] sho
                </choice>
             </attribute>
          </optional>
+         <empty/>
+      </element>
+   </define>
+   <define name="publisher">
+      <element name="publisher">
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">provides the name of the organization responsible for the publication or distribution of a bibliographic item. [3.11.2.4. Imprint, Size of a Document, and Reprint Information 2.2.4. Publication, Distribution, Licensing, etc.]</a:documentation>
+         <ref name="macro.phraseSeq"/>
+         <ref name="att.global.attributes"/>
+         <ref name="att.canonical.attributes"/>
          <empty/>
       </element>
    </define>
@@ -3284,13 +3305,13 @@ Sample values include: 1] main; 2] sub (subordinate); 3] alt (alternate); 4] sho
                       xmlns:mhs="http://www.masshist.org/ns/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       context="tei:publicationStmt/tei:date">
-               <sch:let name="date" value="normalize-space(.)"/>
-               <sch:let name="year"
-                        value="if ( matches( $date, '^[0-9]+$' ) )                                           then $date cast as xs:integer                                           else                                           if ( contains( $date, '-' ) )                                             then substring-before( $date, '-') cast as xs:integer                                             else 0"/>
-               <sch:let name="next" value="$year + 1"/>
-               <sch:assert test="$date castable as xs:gYear                                or $date castable as xs:gYearMonth                                or $date castable as xs:date">The publication date should be a year in YYYY format, a year and month in YYYY-MM format, or a date in YYYY-MM-DD format.</sch:assert>
-               <sch:assert test="matches( $date, '^20[0-9][0-9](-[01][0-9](-[0-3])?)?')">The date of publication should be in the 21st century</sch:assert>
-               <sch:report test="$next ge year-from-date( current-date() )">The date of publication should not be in the future (at least, not past next year)</sch:report>
+               <sch:let name="pub_date" value="normalize-space(.)"/>
+               <sch:let name="pub_year"
+                        value="if ( matches( $pub_date, '^[0-9]+$' ) )                                                 then $pub_date cast as xs:integer                                                 else if ( contains( $pub_date, '-' ) )                                                   then substring-before( $pub_date, '-') cast as xs:integer                                                   else 0"/>
+               <sch:let name="year_before_pub_year" value="$pub_year - 1"/>
+               <sch:assert test="$pub_date castable as xs:gYear                                or $pub_date castable as xs:gYearMonth                                or $pub_date castable as xs:date">The publication date should be a year in YYYY format, a year and month in YYYY-MM format, or a date in YYYY-MM-DD format.</sch:assert>
+               <sch:assert test="matches( $pub_date, '^20[0-9][0-9](-[01][0-9](-[0-3])?)?')">The date of publication should be in the 21st century</sch:assert>
+               <sch:report test="$year_before_pub_year gt year-from-date( current-date() )">The date of publication should not be in the future (at least, not past next year)</sch:report>
             </sch:rule>
          </pattern>
          <ref name="att.global.attributes"/>
@@ -4402,11 +4423,36 @@ Suggested values include: 1] sent; 2] received; 3] transmitted; 4] redirected; 5
       <element name="change">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">documents a change or set of changes made during the production of a source document, or during the revision of an electronic file. [2.6. The Revision Description 2.4.1. Creation 11.6. Identifying Changes and Revisions]</a:documentation>
          <ref name="macro.specialPara"/>
-         <ref name="att.ascribed.attributes"/>
-         <ref name="att.datable.attributes"/>
+         <ref name="att.datable.attribute.calendar"/>
+         <ref name="att.datable.attribute.period"/>
+         <ref name="att.datable.w3c.attribute.notBefore"/>
+         <ref name="att.datable.w3c.attribute.notAfter"/>
+         <ref name="att.datable.w3c.attribute.from"/>
+         <ref name="att.datable.w3c.attribute.to"/>
          <ref name="att.docStatus.attributes"/>
          <ref name="att.global.attributes"/>
          <ref name="att.typed.attributes"/>
+         <attribute name="who">
+            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">indicates the person, or group of people, to whom the element content is ascribed.</a:documentation>
+            <list>
+               <oneOrMore>
+                  <data type="anyURI"/>
+               </oneOrMore>
+            </list>
+         </attribute>
+         <attribute name="when">
+            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">supplies the value of the date or time in a standard form, e.g. yyyy-mm-dd.</a:documentation>
+            <choice>
+               <data type="date"/>
+               <data type="gYear"/>
+               <data type="gMonth"/>
+               <data type="gDay"/>
+               <data type="gYearMonth"/>
+               <data type="gMonthDay"/>
+               <data type="time"/>
+               <data type="dateTime"/>
+            </choice>
+         </attribute>
          <optional>
             <attribute name="target">
                <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">points to one or more elements that belong to this change.</a:documentation>
@@ -4636,109 +4682,12 @@ Suggested values include: 1] sent; 2] received; 3] transmitted; 4] redirected; 5
       <element name="body">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(text body) contains the whole body of a single unitary text, excluding any front or back matter. [4. Default Text Structure]</a:documentation>
          <group>
+            <ref name="docbody"/>
             <zeroOrMore>
-               <ref name="model.global"/>
+               <ref name="insertion"/>
             </zeroOrMore>
-            <optional>
-               <group>
-                  <ref name="model.divTop"/>
-                  <zeroOrMore>
-                     <choice>
-                        <ref name="model.global"/>
-                        <ref name="model.divTop"/>
-                     </choice>
-                  </zeroOrMore>
-               </group>
-            </optional>
-            <optional>
-               <group>
-                  <ref name="model.divGenLike"/>
-                  <zeroOrMore>
-                     <choice>
-                        <ref name="model.global"/>
-                        <ref name="model.divGenLike"/>
-                     </choice>
-                  </zeroOrMore>
-               </group>
-            </optional>
-            <choice>
-               <oneOrMore>
-                  <group>
-                     <ref name="model.divLike"/>
-                     <zeroOrMore>
-                        <choice>
-                           <ref name="model.global"/>
-                           <ref name="model.divGenLike"/>
-                        </choice>
-                     </zeroOrMore>
-                  </group>
-               </oneOrMore>
-               <oneOrMore>
-                  <group>
-                     <ref name="model.div1Like"/>
-                     <zeroOrMore>
-                        <choice>
-                           <ref name="model.global"/>
-                           <ref name="model.divGenLike"/>
-                        </choice>
-                     </zeroOrMore>
-                  </group>
-               </oneOrMore>
-               <group>
-                  <oneOrMore>
-                     <group>
-                        <ref name="model.common"/>
-                        <zeroOrMore>
-                           <ref name="model.global"/>
-                        </zeroOrMore>
-                     </group>
-                  </oneOrMore>
-                  <optional>
-                     <choice>
-                        <oneOrMore>
-                           <group>
-                              <ref name="model.divLike"/>
-                              <zeroOrMore>
-                                 <choice>
-                                    <ref name="model.global"/>
-                                    <ref name="model.divGenLike"/>
-                                 </choice>
-                              </zeroOrMore>
-                           </group>
-                        </oneOrMore>
-                        <oneOrMore>
-                           <group>
-                              <ref name="model.div1Like"/>
-                              <zeroOrMore>
-                                 <choice>
-                                    <ref name="model.global"/>
-                                    <ref name="model.divGenLike"/>
-                                 </choice>
-                              </zeroOrMore>
-                           </group>
-                        </oneOrMore>
-                     </choice>
-                  </optional>
-               </group>
-            </choice>
-            <zeroOrMore>
-               <group>
-                  <ref name="model.divBottom"/>
-                  <zeroOrMore>
-                     <ref name="model.global"/>
-                  </zeroOrMore>
-               </group>
-            </zeroOrMore>
+            <ref name="docback"/>
          </group>
-         <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="primarysourcecoop_rev1-body-require-docback-constraint-assert-18">
-            <rule context="tei:body">
-               <sch:assert xmlns="http://www.tei-c.org/ns/1.0"
-                           xmlns:mhs="http://www.masshist.org/ns/1.0"
-                           xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                           test="tei:div[@type eq 'docback']">A div with type attribute "docback" is required.</sch:assert>
-            </rule>
-         </pattern>
          <ref name="att.global.attributes"/>
          <ref name="att.declaring.attributes"/>
          <empty/>
@@ -4832,12 +4781,6 @@ Suggested values include: 1] sent; 2] received; 3] transmitted; 4] redirected; 5
                <choice>
                   <value>doc</value>
                   <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
-                  <value>docbody</value>
-                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
-                  <value>docback</value>
-                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
-                  <value>insertion</value>
-                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
                   <value>entry</value>
                   <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
                   <value>month</value>
@@ -4889,16 +4832,6 @@ Suggested values include: 1] sent; 2] received; 3] transmitted; 4] redirected; 5
                <ref name="model.global"/>
             </choice>
          </zeroOrMore>
-         <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="primarysourcecoop_rev1-opener-dateline-in-opener-constraint-rule-16">
-            <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
-                      xmlns:mhs="http://www.masshist.org/ns/1.0"
-                      xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      context="tei:opener">
-               <sch:assert test="tei:dateline">An opener element needs a &lt;dateline&gt; element.</sch:assert>
-               <sch:assert test="tei:salute">An opener element needs a &lt;salute&gt; element.</sch:assert>
-            </sch:rule>
-         </pattern>
          <ref name="att.global.attributes"/>
          <ref name="att.written.attributes"/>
          <empty/>
@@ -5435,6 +5368,219 @@ Suggested values include: 1] label; 2] data</a:documentation>
          </group>
          <ref name="att.global.attributes"/>
          <ref name="att.typed.attributes"/>
+         <empty/>
+      </element>
+   </define>
+   <define name="docbody">
+      <element name="div">
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
+         <ref name="macro.docbody"/>
+         <optional>
+            <attribute name="type">
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
+               <choice>
+                  <value>docbody</value>
+                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
+               </choice>
+            </attribute>
+         </optional>
+         <empty/>
+      </element>
+   </define>
+   <define name="insertion">
+      <element name="div">
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
+         <oneOrMore>
+            <ref name="p"/>
+         </oneOrMore>
+         <ref name="att.global.attributes"/>
+         <ref name="att.divLike.attributes"/>
+         <ref name="att.declaring.attributes"/>
+         <ref name="att.written.attributes"/>
+         <optional>
+            <attribute name="type">
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
+               <choice>
+                  <value>insertion</value>
+                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
+               </choice>
+            </attribute>
+         </optional>
+         <empty/>
+      </element>
+   </define>
+   <define name="docback">
+      <element name="div">
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
+         <group>
+            <ref name="sourceNote"/>
+            <optional>
+               <ref name="sourceNote"/>
+            </optional>
+         </group>
+         <zeroOrMore>
+            <ref name="fn"/>
+         </zeroOrMore>
+         <optional>
+            <attribute name="type">
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
+               <choice>
+                  <value>docback</value>
+                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
+               </choice>
+            </attribute>
+         </optional>
+         <empty/>
+      </element>
+   </define>
+   <define name="fn">
+      <element name="note">
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
+         <ref name="macro.specialPara"/>
+         <ref name="att.global.attributes"/>
+         <attribute name="type">
+            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
+            <choice>
+               <value>fn</value>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
+            </choice>
+         </attribute>
+         <empty/>
+      </element>
+   </define>
+   <define name="sourceNote">
+      <element name="note">
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
+         <group>
+            <ref name="sn_doctype"/>
+            <ref name="sn_repository"/>
+            <ref name="sn_collection"/>
+            <optional>
+               <ref name="sn_condition"/>
+            </optional>
+            <optional>
+               <ref name="sn_address"/>
+            </optional>
+            <optional>
+               <ref name="sn_endorsement"/>
+            </optional>
+            <optional>
+               <ref name="sn_notation"/>
+            </optional>
+         </group>
+         <ref name="att.global.attributes"/>
+         <attribute name="type">
+            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
+            <choice>
+               <value>source</value>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
+            </choice>
+         </attribute>
+         <empty/>
+      </element>
+   </define>
+   <define name="sn_doctype">
+      <element name="note">
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
+         <ref name="macro.specialPara"/>
+         <ref name="att.global.attributes"/>
+         <attribute name="type">
+            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
+            <choice>
+               <value>doctype</value>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
+            </choice>
+         </attribute>
+         <empty/>
+      </element>
+   </define>
+   <define name="sn_repository">
+      <element name="note">
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
+         <ref name="macro.specialPara"/>
+         <ref name="att.global.attributes"/>
+         <attribute name="type">
+            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
+            <choice>
+               <value>repository</value>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
+            </choice>
+         </attribute>
+         <empty/>
+      </element>
+   </define>
+   <define name="sn_collection">
+      <element name="note">
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
+         <ref name="macro.specialPara"/>
+         <ref name="att.global.attributes"/>
+         <attribute name="type">
+            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
+            <choice>
+               <value>collection</value>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
+            </choice>
+         </attribute>
+         <empty/>
+      </element>
+   </define>
+   <define name="sn_condition">
+      <element name="note">
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
+         <ref name="macro.specialPara"/>
+         <ref name="att.global.attributes"/>
+         <attribute name="type">
+            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
+            <choice>
+               <value>condition</value>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
+            </choice>
+         </attribute>
+         <empty/>
+      </element>
+   </define>
+   <define name="sn_address">
+      <element name="note">
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
+         <ref name="macro.specialPara"/>
+         <ref name="att.global.attributes"/>
+         <attribute name="type">
+            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
+            <choice>
+               <value>address</value>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
+            </choice>
+         </attribute>
+         <empty/>
+      </element>
+   </define>
+   <define name="sn_endorsement">
+      <element name="note">
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
+         <ref name="macro.specialPara"/>
+         <ref name="att.global.attributes"/>
+         <attribute name="type">
+            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
+            <choice>
+               <value>endorsement</value>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
+            </choice>
+         </attribute>
+         <empty/>
+      </element>
+   </define>
+   <define name="sn_notation">
+      <element name="note">
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
+         <ref name="macro.specialPara"/>
+         <ref name="att.global.attributes"/>
+         <attribute name="type">
+            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
+            <choice>
+               <value>notation</value>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
+            </choice>
+         </attribute>
          <empty/>
       </element>
    </define>
