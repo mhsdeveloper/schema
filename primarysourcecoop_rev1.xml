@@ -27,6 +27,11 @@
       </sourceDesc>
     </fileDesc>
     <revisionDesc>
+      <change who="#lj" when="2021-11-02">
+        <list>
+          <item>Added <gi>choice</gi> and <name>model.choicePart</name> from the original schema.</item>
+          <item>Added @status and @type to <gi>change</gi> and changed @when and @who to be optional.</item>
+        </list></change>
       <change who="#lj" when="2021-06-04">Removed unnecessary Schematron rules about the <gi>opener</gi>.</change>
       <change who="#sb" when="2021-06-04">
         With <persName ref="#lj"/>:
@@ -84,7 +89,6 @@
           <item>added publication_date constraint</item>
         </list>
       </change>
-      <change who="#lj" when="2021-11-02">Added <gi>choice</gi> and <name>model.choicePart</name> from the original schema.</change>
       <change who="#lj" when="2021-05-10">Added <name>require-encodingDesc</name> and <name>require-docback</name> constraints.</change>
       <change who="#lj" when="2021-05-04">Added a content model for <gi>respStmt</gi>.</change>
       <change who="#bb" when="2020-12-15">Added new tei header to accomodate moving metadata (author/recip etc) out of bibl. </change>
@@ -260,8 +264,10 @@
         </elementSpec>
         <elementSpec ident="change" module="header" mode="change">
           <attList>
-            <attDef ident="who" usage="req" mode="change"/>
-            <attDef ident="when" usage="req" mode="change"/>
+            <attDef ident="who" usage="opt" mode="change"/>
+            <attDef ident="when" usage="opt" mode="change"/>
+            <attDef ident="status" usage="opt" mode="change"/>
+            <attDef ident="type" usage="opt" mode="change"/>          
           </attList>
         </elementSpec>
 
