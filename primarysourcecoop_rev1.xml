@@ -84,6 +84,7 @@
           <item>added publication_date constraint</item>
         </list>
       </change>
+      <change who="#lj" when="2021-11-02">Added <gi>choice</gi> and <name>model.choicePart</name> from the original schema.</change>
       <change who="#lj" when="2021-05-10">Added <name>require-encodingDesc</name> and <name>require-docback</name> constraints.</change>
       <change who="#lj" when="2021-05-04">Added a content model for <gi>respStmt</gi>.</change>
       <change who="#bb" when="2020-12-15">Added new tei header to accomodate moving metadata (author/recip etc) out of bibl. </change>
@@ -118,7 +119,7 @@
         <moduleRef key="tei"/>
 
         <!-- ========= core module ========= -->
-        <moduleRef key="core" include="abbr add author bibl cb date del editor expan gap head hi item l label lb lg list name note orig p pb ptr publisher ref reg resp respStmt title unclear sourceDesc textClass keywords list"/>
+        <moduleRef key="core" include="abbr add author bibl cb choice date del editor expan gap head hi item l label lb lg list name note orig p pb ptr publisher ref reg resp respStmt title unclear sourceDesc textClass keywords list"/>
         <elementSpec ident="date" mode="change">
           <constraintSpec scheme="schematron" ident="datingAttr">
             <constraint>
