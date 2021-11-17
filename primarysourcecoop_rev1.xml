@@ -27,9 +27,10 @@
       </sourceDesc>
     </fileDesc>
     <revisionDesc>
+      <change who="#lj" when="2021-11-16">Finalized attributes for <gi>change</gi> to be optional, with a vocabulary for @status added at a later date.</change>
       <change who="#lj" when="2021-11-02">
         <list>
-          <item>Added <gi>choice</gi> and <name>model.choicePart</name> from the original schema.</item>
+          <item>Added <gi>choice</gi> from the original schema.</item>
           <item>Added @status and @type to <gi>change</gi> and changed @when and @who to be optional.</item>
         </list></change>
       <change who="#lj" when="2021-06-04">Removed unnecessary Schematron rules about the <gi>opener</gi>.</change>
